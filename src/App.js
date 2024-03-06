@@ -1,10 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SearchBooks from "./components/SearchBooks";
+import Layout from "./Layout";
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <SearchBooks />,
+      element: <Layout />,
+      children: [{ path: "/search", element: <SearchBooks /> }],
     },
   ]);
   return <RouterProvider router={router} />;
