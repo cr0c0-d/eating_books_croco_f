@@ -10,7 +10,7 @@ function Navbar_c() {
         <Navbar.Brand href="/">책먹는 악어</Navbar.Brand>
         <Navbar.Collapse>
           <Nav className="me-auto">
-            <Nav.Link href="">책 목록</Nav.Link>
+            <Nav.Link href="/search">책 검색</Nav.Link>
             <Nav.Link href="">글 목록</Nav.Link>
           </Nav>
           <Nav>

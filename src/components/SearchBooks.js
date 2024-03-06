@@ -3,18 +3,19 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
-import Stack from "react-bootstrap/Stack";
+import Spinner from "react-bootstrap/Spinner";
 
 import axios from "axios";
 
-import Navbar from "./Navbar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+import BookList from "./BookList";
 
 function SearchBooks() {
   /**
    * 검색어
    */
-  const [queryType, setQueryType] = useState("");
+  const [queryType, setQueryType] = useState("Keyword");
   const [keyword, setKeyword] = useState("");
 
   const onChangeSetKeyword = (event) => {
@@ -28,9 +29,12 @@ function SearchBooks() {
    * 검색 API
    */
   const [books, setBooks] = useState([]);
+  const thisUrl = window.location.hostname;
+
   const searchBooksAPI = async () => {
     const json = await axios({
-      url: `http://localhost:8080/api/books`,
+      url: "http://" + thisUrl + ":8080/api/books",
+      //`http://localhost:8080/api/books`,
       //await fetch(`http://localhost:8080/api/books`, {
       method: "POST",
       headers: {
@@ -42,15 +46,21 @@ function SearchBooks() {
       }),
     });
     setBooks(json.data.item);
+    setLoading(false);
   };
   const onSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     searchBooksAPI();
   };
 
+  /**
+   * 로딩 spinner
+   */
+  const [loading, setLoading] = useState(false);
+
   return (
     <div>
-      <Navbar />
       <Container>
         <div>
           <h1 className="mt-4 mb-4">책 검색</h1>
@@ -87,33 +97,14 @@ function SearchBooks() {
           </Form>
         </div>
       </Container>
-
-      <Stack>
-        {books.map((book) => (
-          <div>
-            <a href={book.link}>
-              <div>
-                <h5 text={book.title}></h5>
-                <small text={book.author}></small>
-                <small text={book.pubdate}></small>
-              </div>
-              <div>
-                <div>
-                  <img
-                    src={book.cover}
-                    class="img-fluid rounded"
-                    alt="게시물 이미지"
-                  />
-                </div>
-                <div class="col-md-9">
-                  <p class="mb-1" text={book.description}></p>
-                </div>
-              </div>
-            </a>
-            <hr />
-          </div>
-        ))}
-      </Stack>
+      <hr />
+      {loading ? (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      ) : (
+        <BookList books={books} />
+      )}
     </div>
   );
 }
