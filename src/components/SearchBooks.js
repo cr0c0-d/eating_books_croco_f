@@ -4,12 +4,15 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Spinner from "react-bootstrap/Spinner";
+import Overlay from "react-bootstrap/Overlay";
+import Tooltip from "react-bootstrap/Tooltip";
 
-import axios from "axios";
-
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import BookList from "./BookList";
+import Paging from "./Paging";
+
+import AladinApiSearchBooksAPI from "../api/Aladin/AladinApiSearchBooksAPI";
 
 function SearchBooks() {
   /**
@@ -17,8 +20,11 @@ function SearchBooks() {
    */
   const [queryType, setQueryType] = useState("Keyword");
   const [keyword, setKeyword] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const alertTarget = useRef(null);
 
   const onChangeSetKeyword = (event) => {
+    if (event.target.value !== "") setShowAlert(false);
     setKeyword(event.target.value);
   };
   const onChangeQueryType = (event) => {
@@ -29,29 +35,31 @@ function SearchBooks() {
    * 검색 API
    */
   const [books, setBooks] = useState([]);
-  const thisUrl = window.location.hostname;
+  const [searchInfo, setSearchInfo] = useState([]);
 
-  const searchBooksAPI = async () => {
-    const json = await axios({
-      url: "http://" + thisUrl + ":8080/api/books",
-      //`http://localhost:8080/api/books`,
-      //await fetch(`http://localhost:8080/api/books`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: JSON.stringify({
-        queryType: queryType,
-        keyword: keyword,
-      }),
+  const [index, setIndex] = useState(
+    searchInfo.startIndex === undefined ? 1 : searchInfo.startIndex
+  );
+
+  const aladinSearchBooks = async () => {
+    AladinApiSearchBooksAPI({ queryType, keyword, index }).then((value) => {
+      setSearchInfo(value);
+      setBooks(value.item);
+      setIndex(value.startIndex);
+      setLoading(false);
     });
-    setBooks(json.data.item);
-    setLoading(false);
   };
+
   const onSubmit = (event) => {
     event.preventDefault();
-    setLoading(true);
-    searchBooksAPI();
+
+    // 검색어가 없으면 alert 표시
+    if (keyword === "") {
+      setShowAlert(true);
+    } else {
+      setLoading(true);
+      aladinSearchBooks();
+    }
   };
 
   /**
@@ -89,9 +97,20 @@ function SearchBooks() {
                 />
               </Col>
               <Col>
-                <Button type="submit" onClick={onSubmit}>
+                <Button type="submit" onClick={onSubmit} ref={alertTarget}>
                   검색
                 </Button>
+                <Overlay
+                  target={alertTarget.current}
+                  show={showAlert}
+                  placement="right"
+                >
+                  {(props) => (
+                    <Tooltip id="overlay-example" {...props}>
+                      검색어를 입력하세요.
+                    </Tooltip>
+                  )}
+                </Overlay>
               </Col>
             </Row>
           </Form>
@@ -103,7 +122,16 @@ function SearchBooks() {
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       ) : (
-        <BookList books={books} />
+        <div>
+          <BookList books={books} />
+          <hr />
+          <Paging
+            curIndex={index}
+            totalResults={searchInfo.totalResults}
+            itemPerPage={searchInfo.itemPerPage}
+            setIndex={setIndex}
+          />
+        </div>
       )}
     </div>
   );
