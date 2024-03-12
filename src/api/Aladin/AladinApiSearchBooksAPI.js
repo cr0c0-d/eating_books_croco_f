@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const AladinApiSearchBooksAPI = async ({ queryType, keyword, start }) => {
+const AladinApiSearchBooksAPI = async ({ queryType, keyword, index }) => {
   const thisUrl = window.location.hostname;
   const json = await axios({
     url: "http://" + thisUrl + ":8080/api/books",
@@ -11,7 +11,7 @@ const AladinApiSearchBooksAPI = async ({ queryType, keyword, start }) => {
     data: JSON.stringify({
       queryType: queryType,
       keyword: keyword,
-      start: start,
+      start: index,
     }),
   });
   return json.data;
