@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import BookList from "./BookList";
 import Paging from "./Paging";
@@ -20,6 +20,13 @@ function SearchBooks() {
    */
   const [queryType, setQueryType] = useState("Keyword");
   const [keyword, setKeyword] = useState("");
+  const [index, setIndex] = useState(1);
+
+  /**
+   * 로딩 spinner
+   */
+  const [loading, setLoading] = useState(false);
+
   const [showAlert, setShowAlert] = useState(false);
   const alertTarget = useRef(null);
 
@@ -37,15 +44,10 @@ function SearchBooks() {
   const [books, setBooks] = useState([]);
   const [searchInfo, setSearchInfo] = useState([]);
 
-  const [index, setIndex] = useState(
-    searchInfo.startIndex === undefined ? 1 : searchInfo.startIndex
-  );
-
   const aladinSearchBooks = async () => {
     AladinApiSearchBooksAPI({ queryType, keyword, index }).then((value) => {
       setSearchInfo(value);
       setBooks(value.item);
-      setIndex(value.startIndex);
       setLoading(false);
     });
   };
@@ -57,15 +59,20 @@ function SearchBooks() {
     if (keyword === "") {
       setShowAlert(true);
     } else {
-      setLoading(true);
-      aladinSearchBooks();
+      chIdx(1);
     }
   };
 
-  /**
-   * 로딩 spinner
-   */
-  const [loading, setLoading] = useState(false);
+  const chIdx = (idx) => {
+    setIndex(idx);
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    if (loading && keyword !== undefined && queryType !== undefined) {
+      aladinSearchBooks();
+    }
+  }, [index, loading]);
 
   return (
     <div>
@@ -121,17 +128,19 @@ function SearchBooks() {
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
-      ) : (
+      ) : books !== null ? (
         <div>
           <BookList books={books} />
           <hr />
           <Paging
-            curIndex={index}
+            curIndex={searchInfo.startIndex}
             totalResults={searchInfo.totalResults}
-            itemPerPage={searchInfo.itemPerPage}
-            setIndex={setIndex}
+            itemsPerPage={searchInfo.itemsPerPage}
+            setIndex={chIdx}
           />
         </div>
+      ) : (
+        ""
       )}
     </div>
   );
