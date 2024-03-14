@@ -8,10 +8,6 @@ import Container from "react-bootstrap/Container";
 import axios from "axios";
 
 function SignUpForm() {
-  //const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [nickname, setNickname] = useState("");
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -56,7 +52,7 @@ function SignUpForm() {
     event.preventDefault();
     let formErrors = validateForm();
     if (Object.keys(formErrors).length === 0) {
-      return signupApi();
+      signupApi();
     } else {
       setErrors(formErrors);
     }
