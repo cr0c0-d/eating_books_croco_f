@@ -8,12 +8,12 @@ import Container from "react-bootstrap/Container";
 import axios from "axios";
 
 function Login() {
+  const history = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const history = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,7 +58,7 @@ function Login() {
   const loginAPI = async () => {
     const thisUrl = window.location.hostname;
     const response = await axios({
-      url: "http://" + thisUrl + ":8080/login",
+      url: "http://" + thisUrl + ":8080/loginProcessing",
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -67,10 +67,29 @@ function Login() {
         email: formData.email,
         password: formData.password,
       },
+    }).catch((error) => {
+      if (error.code === "ERR_BAD_REQUEST") {
+        setErrors({
+          loginFail: "아이디 혹은 비밀번호를 확인해주세요. ",
+        });
+      }
     });
-    if (response.status === 200) {
+    if (response !== undefined && response.status === 200) {
       history("/search");
     }
+  };
+
+  // const googleLogin = () => {
+  //   const thisUrl = window.location.hostname;
+  //   const url = "http://" + thisUrl + ":8080/oauth2/authorization/google";
+  //   redirect(url);
+  const googleLogin = async () => {
+    const thisUrl = window.location.hostname;
+    const response = await axios({
+      url: "http://" + thisUrl + ":8080/oauth2/google",
+      method: "GET",
+    });
+    console.log("google response : " + response);
   };
 
   return (
@@ -88,6 +107,11 @@ function Login() {
                 type="email"
                 placeholder="이메일을 입력하세요."
               />
+              {errors.email && (
+                <Form.Text id="email" style={{ color: "red" }}>
+                  {errors.email}
+                </Form.Text>
+              )}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -99,12 +123,33 @@ function Login() {
                 type="password"
                 placeholder="비밀번호를 입력하세요."
               />
+              {errors.password && (
+                <Form.Text id="email" style={{ color: "red" }}>
+                  {errors.password}
+                </Form.Text>
+              )}
             </Form.Group>
+
+            {errors.loginFail && (
+              <Form.Group className="mb-3">
+                <Form.Text id="email" style={{ color: "red" }}>
+                  {errors.loginFail}
+                </Form.Text>
+              </Form.Group>
+            )}
 
             <Button variant="primary" type="submit" onClick={onSubmit}>
               로그인
             </Button>
           </Form>
+        </div>
+        <div>
+          <a href="/signup">
+            <p>회원가입</p>
+          </a>
+        </div>
+        <div>
+          <Button onClick={googleLogin}>구글 로그인</Button>
         </div>
       </Container>
     </div>
