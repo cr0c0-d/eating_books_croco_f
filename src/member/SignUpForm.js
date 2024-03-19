@@ -67,22 +67,23 @@ function SignUpForm() {
         "Content-Type": "application/json",
       },
       data: JSON.stringify({
-        id: formData.email,
+        email: formData.email,
         password: formData.password,
         nickname: formData.nickname,
       }),
+    }).catch((error) => {
+      // 중복된 이메일
+      if (error.code === "ERR_BAD_REQUEST") {
+        setErrors({
+          email: "사용중인 이메일입니다. 다른 이메일을 사용해주세요.",
+        });
+        return;
+      }
     });
-
-    if (json.data === "id error") {
-      setErrors({
-        email: "사용중인 이메일입니다. 다른 이메일을 사용해주세요.",
-      });
-    } else {
+    if (json !== undefined && json.status === 201) {
       setErrors({});
-      history(json.data.replace("redirect:", "/"));
+      history("/login");
     }
-
-    return json.data;
   };
 
   return (
