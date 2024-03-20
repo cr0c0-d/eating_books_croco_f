@@ -67,6 +67,7 @@ function Login() {
         email: formData.email,
         password: formData.password,
       },
+      withCredentials: true,
     }).catch((error) => {
       if (error.code === "ERR_BAD_REQUEST") {
         setErrors({
@@ -77,19 +78,6 @@ function Login() {
     if (response !== undefined && response.status === 200) {
       history("/search");
     }
-  };
-
-  // const googleLogin = () => {
-  //   const thisUrl = window.location.hostname;
-  //   const url = "http://" + thisUrl + ":8080/oauth2/authorization/google";
-  //   redirect(url);
-  const googleLogin = async () => {
-    const thisUrl = window.location.hostname;
-    const response = await axios({
-      url: "http://" + thisUrl + ":8080/oauth2/google",
-      method: "GET",
-    });
-    console.log("google response : " + response);
   };
 
   return (
@@ -149,7 +137,16 @@ function Login() {
           </a>
         </div>
         <div>
-          <Button onClick={googleLogin}>구글 로그인</Button>
+          <Button
+            //onClick={googleLogin}
+            href={
+              "http://" +
+              window.location.hostname +
+              ":8080/oauth2/authorization/google"
+            }
+          >
+            구글 로그인
+          </Button>
         </div>
       </Container>
     </div>
