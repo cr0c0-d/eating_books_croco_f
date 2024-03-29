@@ -76,6 +76,7 @@ function Login() {
       }
     });
     if (response !== undefined && response.status === 200) {
+      localStorage.setItem("accessToken", response.data);
       history("/search");
     }
   };
@@ -132,13 +133,10 @@ function Login() {
           </Form>
         </div>
         <div>
-          <a href="/signup">
-            <p>회원가입</p>
-          </a>
+          <Button href="/signup">회원가입</Button>
         </div>
         <div>
           <Button
-            //onClick={googleLogin}
             href={
               "http://" +
               window.location.hostname +
