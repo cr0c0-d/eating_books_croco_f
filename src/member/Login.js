@@ -76,8 +76,13 @@ function Login() {
       }
     });
     if (response !== undefined && response.status === 200) {
-      localStorage.setItem("accessToken", response.data);
-      history("/search");
+      const userdata = {
+        accessToken: response.data.accessToken,
+        nickname: response.data.nickname,
+      };
+      localStorage.setItem("userdata", JSON.stringify(userdata));
+      window.location.replace("/search");
+      //history("/search");
     }
   };
 
