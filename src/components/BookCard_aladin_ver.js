@@ -1,14 +1,28 @@
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
-import BookDetail from "./BookDetail";
-import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
 import axios from "axios";
 
-function BookCard({ book, clickCard }) {
+function BookCard({ book }) {
+  const onClickCard = async () => {
+    const thisUrl = window.location.hostname;
+    const json = await axios({
+      url: "http://" + thisUrl + ":8080/api/books/" + book.isbn13,
+      method: "GET",
+    });
+    console.log(json.data);
+  };
+  /**
+   * <Card.Body>
+          <Card.Text>
+            {book.description.length > 43
+              ? book.description.substring(0, 43) + "..."
+              : book.description}
+          </Card.Text>
+        </Card.Body>
+   */
   return (
-    <Col onClick={() => clickCard(book)}>
+    <Col onClick={onClickCard}>
       <Card style={{ width: "15rem" }} className="mb-4">
         <Card.Header as="h6">
           {book.title.length > 28
@@ -16,7 +30,7 @@ function BookCard({ book, clickCard }) {
             : book.title}
         </Card.Header>
 
-        <Card.Img variant="top" src={book.image} style={{ height: "20rem" }} />
+        <Card.Img variant="top" src={book.cover} style={{ height: "20rem" }} />
 
         <ListGroup className="list-group-flush">
           <ListGroup.Item>{book.author}</ListGroup.Item>

@@ -1,11 +1,14 @@
 import Pagination from "react-bootstrap/Pagination";
 
 function Paging({ curIndex, totalResults, itemsPerPage, setIndex }) {
+  totalResults = totalResults > 200 ? 200 : totalResults; // 알라딘 검색 API 최대 출력 개수가 200개임
   const pages = [];
-  const totalEndPage = Math.floor(totalResults / itemsPerPage) + 1;
+  const totalEndPage =
+    totalResults === 200 ? 20 : Math.floor(totalResults / itemsPerPage) + 1;
   const curStartPage = Math.ceil(curIndex / 10) * 10 - 9;
   const curEndPage =
     curStartPage + 9 > totalEndPage ? totalEndPage : curStartPage + 9;
+
   for (var i = curStartPage; i <= curEndPage; i++) {
     pages[i - 1] = i;
   }

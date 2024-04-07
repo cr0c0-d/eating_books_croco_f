@@ -6,7 +6,6 @@ import Col from "react-bootstrap/Col";
 import Spinner from "react-bootstrap/Spinner";
 import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
-import Modal from "react-bootstrap/Modal";
 
 import { useState, useRef, useEffect } from "react";
 
@@ -48,7 +47,7 @@ function SearchBooks() {
   const aladinSearchBooks = async () => {
     AladinApiSearchBooksAPI({ queryType, keyword, index }).then((value) => {
       setSearchInfo(value);
-      setBooks(value.items);
+      setBooks(value.item);
       setLoading(false);
     });
   };
@@ -126,19 +125,17 @@ function SearchBooks() {
       </Container>
       <hr />
       {loading ? (
-        <Modal>
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </Modal>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
       ) : books !== null ? (
         <div>
           <BookList books={books} />
           <hr />
           <Paging
-            curIndex={(searchInfo.start - 1) / 10 + 1}
-            totalResults={searchInfo.total}
-            itemsPerPage="10"
+            curIndex={searchInfo.startIndex}
+            totalResults={searchInfo.totalResults}
+            itemsPerPage={searchInfo.itemsPerPage}
             setIndex={chIdx}
           />
         </div>
