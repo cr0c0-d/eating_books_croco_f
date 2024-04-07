@@ -40,7 +40,7 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
   }).then(async (response) => {
     if (response.status === 200 || response.status === 201) {
       // 200 : ok / 201 : created
-      return success();
+      return success(response);
     }
     const refresh_token = getCookie("refresh_token");
     if (response.status === 401 && refresh_token) {
@@ -50,7 +50,7 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
         url: thisUrl + "/api/token",
         method: "POST",
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          Authorization: authorization,
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
@@ -65,17 +65,20 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
 
         .then((result) => {
           // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
-          localStorage.setItem("access_token", result.accessToken);
+          const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+          userInfo.accessToken = result.accessToken;
+
+          localStorage.setItem("userInfo", userInfo);
           AuthAPI({ url, method, data, success, fail }); // 요청을 다시 보냄
         })
 
-        .catch((error) => fail());
+        .catch((error) => fail(error));
     } else {
       return fail();
     }
   });
 
-  return json.data;
+  return json;
 };
 
 export default AuthAPI;
