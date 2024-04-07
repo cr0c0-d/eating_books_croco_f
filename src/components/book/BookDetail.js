@@ -9,8 +9,10 @@ import axios from "axios";
 import { useState } from "react";
 import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 import Badge from "react-bootstrap/Badge";
+import { useNavigate } from "react-router-dom";
 
 function BookDetail({ book, clickClose }) {
+  const history = useNavigate();
   return (
     <div>
       {book ? (
@@ -60,13 +62,36 @@ function BookDetail({ book, clickClose }) {
                 <br />
                 <Row>
                   <div>
-                    <p style={{ "text-align": "right" }}>
+                    <p style={{ textAlign: "right" }}>
                       아직 읽기 전이라면?{" "}
-                      <Button variant="primary">식전문 쓰기</Button>
+                      <Button
+                        variant="primary"
+                        onClick={() =>
+                          history("/newArticle", {
+                            isbn: book.isbn,
+                            articleType: "B",
+                          })
+                        }
+                      >
+                        식전문 쓰기
+                      </Button>
                     </p>
-                    <p style={{ "text-align": "right" }}>
+                    <p style={{ textAlign: "right" }}>
                       다 읽었다면?{" "}
-                      <Button variant="primary">식후문 쓰기</Button>
+                      <Button
+                        variant="primary"
+                        onClick={() =>
+                          history("/newArticle", {
+                            isbn: book.isbn,
+                            articleType: "A",
+                          })
+                        }
+                      >
+                        식후문 쓰기
+                      </Button>
+                    </p>
+                    <p style={{ textAlign: "right" }}>
+                      <Button variant="secondary">다른 사람의 글 보기</Button>
                     </p>
                   </div>
                 </Row>
