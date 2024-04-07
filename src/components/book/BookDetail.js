@@ -58,6 +58,10 @@ function BookDetail({ book, clickClose }) {
                     <p style={{ whiteSpace: "pre-wrap" }}>{book.description}</p>
                   </div>
                 </Row>
+              </Col>
+            </Row>
+            {window.location.pathname === "/search" ? (
+              <div>
                 <br />
                 <br />
                 <Row>
@@ -68,8 +72,10 @@ function BookDetail({ book, clickClose }) {
                         variant="primary"
                         onClick={() =>
                           history("/newArticle", {
-                            isbn: book.isbn,
-                            articleType: "B",
+                            state: {
+                              book: book,
+                              articleType: "B",
+                            },
                           })
                         }
                       >
@@ -82,8 +88,10 @@ function BookDetail({ book, clickClose }) {
                         variant="primary"
                         onClick={() =>
                           history("/newArticle", {
-                            isbn: book.isbn,
-                            articleType: "A",
+                            state: {
+                              book: book,
+                              articleType: "A",
+                            },
                           })
                         }
                       >
@@ -91,12 +99,14 @@ function BookDetail({ book, clickClose }) {
                       </Button>
                     </p>
                     <p style={{ textAlign: "right" }}>
-                      <Button variant="secondary">다른 사람의 글 보기</Button>
+                      <Button variant="secondary">이 책에 대한 글 보기</Button>
                     </p>
                   </div>
                 </Row>
-              </Col>
-            </Row>
+              </div>
+            ) : (
+              ""
+            )}
           </ModalBody>
           <ModalFooter>
             <Button variant="secondary" onClick={() => clickClose(null)}>
