@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+import { useUser } from "./UserContext";
 
 import axios from "axios";
 
 function Login() {
   const history = useNavigate();
+  const { setUserInfo } = useUser();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -81,8 +83,9 @@ function Login() {
         nickname: response.data.nickname,
       };
       localStorage.setItem("userdata", JSON.stringify(userdata));
-      window.location.replace("/search");
-      //history("/search");
+      const nickname = response.data.nickname;
+      setUserInfo({ nickname: nickname });
+      history("/search");
     }
   };
 
