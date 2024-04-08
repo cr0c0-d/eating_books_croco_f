@@ -10,8 +10,6 @@ import Alert from "react-bootstrap/Alert";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
-import axios from "axios";
-
 import AuthAPI from "../member/AuthAPI";
 import BookDetail from "../book/BookDetail";
 import NewArticleTemplates from "./NewArticleTemplates";
@@ -101,7 +99,12 @@ function NewArticle() {
         url: "/api/articles",
         method: "POST",
         data: data,
-        success: () => console.log("성공"),
+        success: (response) => {
+          if (response.status === 201) {
+            history("/articles/" + response.data.id);
+          }
+          console.log("성공");
+        },
         fail: () => console.log("실패"),
       });
     }

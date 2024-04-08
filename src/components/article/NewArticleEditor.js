@@ -36,7 +36,6 @@ const NewArticleEditor = () => {
   useEffect(() => {
     if (articleSave && articleMode === "editor") {
       // articleSave가 true가 되면
-      console.log("짠");
       const contents = draftToHtml(
         convertToRaw(editorState.getCurrentContent())
       );

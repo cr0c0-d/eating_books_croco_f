@@ -48,7 +48,16 @@ function BookDetail({ book, clickClose }) {
                 <Row>
                   <div>
                     <p>
-                      <Badge bg="secondary">발행일</Badge> {book.pubdate}
+                      <Badge bg="secondary">발행일</Badge>{" "}
+                      {book.pubdate.length == 8
+                        ? `${book.pubdate.substring(
+                            0,
+                            4
+                          )}.${book.pubdate.substring(
+                            4,
+                            6
+                          )}.${book.pubdate.substring(6, 8)}.`
+                        : "정보없음"}
                     </p>
                   </div>
                 </Row>
