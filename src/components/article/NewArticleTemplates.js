@@ -29,7 +29,6 @@ function NewArticleTemplates({ templates }) {
   useEffect(() => {
     if (articleSave && articleMode === "template") {
       // articleSave가 true가 되면
-      console.log("짠");
       let validate = false;
       for (var i in responses) {
         if (responses[i] !== "") {
@@ -55,13 +54,13 @@ function NewArticleTemplates({ templates }) {
       </Alert>
       <Accordion defaultActiveKey={["0"]} alwaysOpen>
         {templates.map((t) => (
-          <Accordion.Item eventKey={t.num} key={t.num}>
+          <Accordion.Item eventKey={t.id} key={t.id}>
             <Accordion.Header>{t.content}</Accordion.Header>
             <Accordion.Body>
               <Form.Control
                 as="textarea"
                 rows={10}
-                onChange={(e) => handleInputChange(t.num, e.target.value)}
+                onChange={(e) => handleInputChange(t.id, e.target.value)}
                 value={responses[t.id] || ""} // 입력값이 없을 경우 빈 문자열로 처리
               />
             </Accordion.Body>
