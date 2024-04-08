@@ -11,9 +11,8 @@ function Navbar_c() {
   const { userInfo, setUserInfo } = useUser();
 
   const logoutAPI = async () => {
-    const thisUrl = window.location.hostname;
     await axios({
-      url: "http://" + thisUrl + ":8080/logout",
+      url: `${process.env.REACT_APP_API_ROOT}/logout`,
       method: "GET",
       withCredentials: true,
     }).then((response) => {
