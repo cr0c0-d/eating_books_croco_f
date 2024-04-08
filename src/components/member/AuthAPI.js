@@ -1,36 +1,37 @@
 import axios from "axios";
 import { useUser } from "./UserContext";
+// 쿠키를 가져오는 함수
+function getCookie(key) {
+  var result = null;
+  var cookie = document.cookie.split(";");
+  cookie.some(function (item) {
+    item = item.replace(" ", "");
+
+    var dic = item.split("=");
+
+    if (key === dic[0]) {
+      result = dic[1];
+      return true;
+    }
+  });
+
+  return result;
+}
 
 // url = "/api/article"
 // method = "POST"
 // data = "{ index : 1, ... }"
 // success, fail = 성공/실패시 메서드
 const AuthAPI = async ({ url, method, data, success, fail }) => {
-  // 쿠키를 가져오는 함수
-  function getCookie(key) {
-    var result = null;
-    var cookie = document.cookie.split(";");
-    cookie.some(function (item) {
-      item = item.replace(" ", "");
-
-      var dic = item.split("=");
-
-      if (key === dic[0]) {
-        result = dic[1];
-        return true;
-      }
-    });
-
-    return result;
-  }
-  if (localStorage.getItem("userdata") === null) {
+  const refresh_token = getCookie("refresh_token");
+  if (!refresh_token || !localStorage.getItem("userdata")) {
     return fail();
   }
   const authorization =
     "Bearer " + JSON.parse(localStorage.getItem("userdata")).accessToken;
 
   const thisUrl = "http://" + window.location.hostname + ":8080";
-  const json = await axios({
+  const axiosResponse = await axios({
     url: thisUrl + url,
     method: method,
     headers: {
@@ -38,15 +39,9 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
       Authorization: authorization,
     },
     data: data,
-  }).then(async (response) => {
-    if (response.status === 200 || response.status === 201) {
-      // 200 : ok / 201 : created
-      return success(response);
-    }
-    const refresh_token = getCookie("refresh_token");
-    if (response.status === 401 && refresh_token) {
-      // 401 : unauthorized
-
+  }).catch(async (error) => {
+    if (error.response.status === 401) {
+      // 401 : unauthorized (액세스 토큰 만료)
       const res = await axios({
         url: thisUrl + "/api/token",
         method: "POST",
@@ -57,30 +52,30 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
         data: JSON.stringify({
           refreshToken: getCookie("refresh_token"),
         }),
-      })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-        })
+      }).catch((error) => {
+        // 리프레쉬 토큰도 잘못됨
+        return fail();
+      });
+      if (res.status === 201 || res.status === 200) {
+        // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
+        const userInfo = JSON.parse(localStorage.getItem("userdata"));
+        userInfo.accessToken = res.data.accessToken;
 
-        .then((result) => {
-          // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
-          const userInfo = JSON.parse(localStorage.getItem("userdata"));
-          userInfo.accessToken = result.accessToken;
+        localStorage.setItem("userdata", JSON.stringify(userInfo));
 
-          localStorage.setItem("userdata", userInfo);
-          AuthAPI({ url, method, data, success, fail }); // 요청을 다시 보냄
-        })
-
-        .catch((error) => fail(error));
-    } else {
-      // 액세스 토큰 만료 혹은 리프레시토큰 없음
-      return fail();
+        return AuthAPI({ url, method, data, success, fail }); // 요청을 다시 보냄
+      }
     }
   });
+  if (
+    axiosResponse &&
+    (axiosResponse.status === 200 || axiosResponse.status === 201)
+  ) {
+    // 200 : ok / 201 : created
+    return success(axiosResponse);
+  }
 
-  return json;
+  //return json;
 };
 
 export default AuthAPI;
