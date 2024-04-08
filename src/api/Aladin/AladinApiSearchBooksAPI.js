@@ -1,9 +1,8 @@
 import axios from "axios";
 
 const AladinApiSearchBooksAPI = async ({ queryType, keyword, index }) => {
-  const thisUrl = window.location.hostname;
   const json = await axios({
-    url: "http://" + thisUrl + ":8080/api/books",
+    url: `${process.env.REACT_APP_API_ROOT}/api/books`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",

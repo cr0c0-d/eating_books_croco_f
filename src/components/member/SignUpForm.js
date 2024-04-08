@@ -59,9 +59,8 @@ function SignUpForm() {
   };
 
   const signupApi = async () => {
-    const thisUrl = window.location.hostname;
     const json = await axios({
-      url: "http://" + thisUrl + ":8080/signup",
+      url: `${process.env.REACT_APP_API_ROOT}/signup`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -30,9 +30,8 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
   const authorization =
     "Bearer " + JSON.parse(localStorage.getItem("userdata")).accessToken;
 
-  const thisUrl = "http://" + window.location.hostname + ":8080";
   const axiosResponse = await axios({
-    url: thisUrl + url,
+    url: `${process.env.REACT_APP_API_ROOT}` + url,
     method: method,
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +42,7 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
     if (error.response.status === 401) {
       // 401 : unauthorized (액세스 토큰 만료)
       const res = await axios({
-        url: thisUrl + "/api/token",
+        url: `${process.env.REACT_APP_API_ROOT}/api/token`,
         method: "POST",
         headers: {
           Authorization: authorization,
@@ -54,7 +53,7 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
         }),
       }).catch((error) => {
         // 리프레쉬 토큰도 잘못됨
-        return fail();
+        return fail(error);
       });
       if (res.status === 201 || res.status === 200) {
         // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
@@ -65,6 +64,8 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
 
         return AuthAPI({ url, method, data, success, fail }); // 요청을 다시 보냄
       }
+    } else {
+      return fail(error);
     }
   });
   if (

@@ -5,9 +5,8 @@ import axios from "axios";
 
 function BookCard({ book }) {
   const onClickCard = async () => {
-    const thisUrl = window.location.hostname;
     const json = await axios({
-      url: "http://" + thisUrl + ":8080/api/books/" + book.isbn13,
+      url: `${process.env.REACT_APP_API_ROOT}/api/books/${book.isbn13}`,
       method: "GET",
     });
     console.log(json.data);

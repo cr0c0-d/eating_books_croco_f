@@ -59,9 +59,8 @@ function Login() {
   };
 
   const loginAPI = async () => {
-    const thisUrl = window.location.hostname;
     const response = await axios({
-      url: "http://" + thisUrl + ":8080/loginProcessing",
+      url: `${process.env.REACT_APP_API_ROOT}/loginProcessing`,
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -153,11 +152,7 @@ function Login() {
         </div>
         <div>
           <Button
-            href={
-              "http://" +
-              window.location.hostname +
-              ":8080/oauth2/authorization/google"
-            }
+            href={`${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`}
           >
             구글 로그인
           </Button>
