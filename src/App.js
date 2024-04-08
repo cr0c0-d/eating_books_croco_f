@@ -3,7 +3,7 @@ import SearchBooks from "./components/book/SearchBooks";
 import SignUpForm from "./components/member/SignUpForm";
 import Login from "./components/member/Login";
 import Layout from "./Layout";
-import NewArticle from "./components/article/NewArticle";
+import WriteArticle from "./components/article/WriteArticle";
 function App() {
   const router = createBrowserRouter([
     {
@@ -13,7 +13,7 @@ function App() {
         { path: "/search", element: <SearchBooks /> },
         { path: "/signup", element: <SignUpForm /> },
         { path: "/login", element: <Login /> },
-        { path: "/newArticle", element: <NewArticle /> },
+        { path: "/newArticle", element: <WriteArticle /> },
       ],
     },
   ]);
