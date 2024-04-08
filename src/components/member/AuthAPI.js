@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useUser } from "./UserContext";
-import { useNavigate } from "react-router-dom";
 
 // url = "/api/article"
 // method = "POST"
@@ -24,7 +23,9 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
 
     return result;
   }
-
+  if (localStorage.getItem("userdata") === null) {
+    return fail();
+  }
   const authorization =
     "Bearer " + JSON.parse(localStorage.getItem("userdata")).accessToken;
 
@@ -65,15 +66,16 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
 
         .then((result) => {
           // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
-          const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+          const userInfo = JSON.parse(localStorage.getItem("userdata"));
           userInfo.accessToken = result.accessToken;
 
-          localStorage.setItem("userInfo", userInfo);
+          localStorage.setItem("userdata", userInfo);
           AuthAPI({ url, method, data, success, fail }); // 요청을 다시 보냄
         })
 
         .catch((error) => fail(error));
     } else {
+      // 액세스 토큰 만료 혹은 리프레시토큰 없음
       return fail();
     }
   });

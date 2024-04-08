@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -10,6 +10,7 @@ import axios from "axios";
 
 function Login() {
   const history = useNavigate();
+  const location = useLocation();
   const { setUserInfo } = useUser();
 
   const [formData, setFormData] = useState({
@@ -85,7 +86,14 @@ function Login() {
       localStorage.setItem("userdata", JSON.stringify(userdata));
       const nickname = response.data.nickname;
       setUserInfo({ nickname: nickname });
-      history("/search");
+
+      if (location.state && location.state.beforeUrl) {
+        // 이전 페이지 기록이 있으면
+        history(location.state.beforeUrl, { state: { ...location.state } });
+      } else {
+        // 기록이 없으면
+        history("/search");
+      }
     }
   };
 
