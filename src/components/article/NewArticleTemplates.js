@@ -40,7 +40,6 @@ function NewArticleTemplates({ templates }) {
         alert("적어도 한 가지 문항은 작성해야 합니다!");
         return setArticleSave(false);
       } else {
-        console.log(responses);
         setArticleContents(responses);
       }
     }

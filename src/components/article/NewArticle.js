@@ -85,6 +85,7 @@ function NewArticle() {
         title: title,
         content: articleContents,
         isbn: book.isbn,
+        bookTitle: book.title,
         writeType: articleMode,
         articleType: articleType,
         publicYn: publicYn,
@@ -103,9 +104,12 @@ function NewArticle() {
           if (response.status === 201) {
             history("/articles/" + response.data.id);
           }
-          console.log("성공");
         },
-        fail: () => console.log("실패"),
+        fail: (error) => {
+          if (error) {
+            console.log(error);
+          }
+        },
       });
     }
   }, [articleContents]);
