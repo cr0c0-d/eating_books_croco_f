@@ -33,7 +33,7 @@ function Navbar_c() {
         <Navbar.Collapse>
           <Nav className="me-auto">
             <Nav.Link href="/search">책 검색</Nav.Link>
-            <Nav.Link href="">글 목록</Nav.Link>
+            <Nav.Link href="/articles">글 목록</Nav.Link>
           </Nav>
           <Nav>
             {userInfo.nickname ? (
