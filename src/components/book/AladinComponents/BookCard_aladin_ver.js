@@ -9,7 +9,6 @@ function BookCard({ book }) {
       url: `${process.env.REACT_APP_API_ROOT}/api/books/${book.isbn13}`,
       method: "GET",
     });
-    console.log(json.data);
   };
   /**
    * <Card.Body>
