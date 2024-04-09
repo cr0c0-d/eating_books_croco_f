@@ -100,15 +100,7 @@ function Article() {
           <h1 className="mt-4 mb-4">{article.title}</h1>
           <Row>
             <h5>
-              {article.writer.nickname} {article.createdAt[0]}.
-              {article.createdAt[1] < 10
-                ? `0${article.createdAt[1]}`
-                : article.createdAt[1]}
-              .
-              {article.createdAt[2] < 10
-                ? "0" + article.createdAt[2]
-                : article.createdAt[2]}
-              .
+              {article.writer.nickname} {article.createdAt}
             </h5>
           </Row>
 
