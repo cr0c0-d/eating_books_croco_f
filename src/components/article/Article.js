@@ -10,7 +10,7 @@ import Image from "react-bootstrap/Image";
 import ListGroup from "react-bootstrap/ListGroup";
 
 import axios from "axios";
-import AuthAPI from "../member/AuthAPI";
+import AuthAPI from "../../AuthAPI";
 import { useUser } from "../member/UserContext";
 import BookCard from "../book/BookCard";
 

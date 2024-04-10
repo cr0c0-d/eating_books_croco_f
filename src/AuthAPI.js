@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useUser } from "./UserContext";
+import { useUser } from "./components/member/UserContext";
 // 쿠키를 가져오는 함수
 function getCookie(key) {
   var result = null;
@@ -39,6 +39,7 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
     },
     data: data,
   }).catch(async (error) => {
+    console.log("error : " + error);
     if (error.response.status === 401) {
       // 401 : unauthorized (액세스 토큰 만료)
       const res = await axios({

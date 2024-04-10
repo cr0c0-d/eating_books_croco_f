@@ -10,7 +10,7 @@ import Alert from "react-bootstrap/Alert";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
-import AuthAPI from "../member/AuthAPI";
+import AuthAPI from "../../AuthAPI";
 import BookDetail from "../book/BookDetail";
 import NewArticleTemplates from "./NewArticleTemplates";
 import NewArticleEditor from "./NewArticleEditor";
