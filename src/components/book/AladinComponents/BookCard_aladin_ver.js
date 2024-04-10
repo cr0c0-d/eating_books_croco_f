@@ -1,3 +1,4 @@
+import "../ellipsis.css";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -10,22 +11,12 @@ function BookCard({ book }) {
       method: "GET",
     });
   };
-  /**
-   * <Card.Body>
-          <Card.Text>
-            {book.description.length > 43
-              ? book.description.substring(0, 43) + "..."
-              : book.description}
-          </Card.Text>
-        </Card.Body>
-   */
+
   return (
     <Col onClick={onClickCard}>
       <Card style={{ width: "15rem" }} className="mb-4">
-        <Card.Header as="h6">
-          {book.title.length > 28
-            ? book.title.substring(0, 28) + "..."
-            : book.title}
+        <Card.Header as="h6" className="ellipsis">
+          {book.title}
         </Card.Header>
 
         <Card.Img variant="top" src={book.cover} style={{ height: "20rem" }} />

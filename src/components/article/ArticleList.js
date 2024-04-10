@@ -1,3 +1,5 @@
+import "../ellipsis.css";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -51,7 +53,7 @@ function ArticleList() {
                   <Col md="1">
                     {article.articleType == "B" ? "식전문" : "식후문"}
                   </Col>
-                  <Col md="5">
+                  <Col md="5" className="ellipsis">
                     <span
                       onClick={() => history(`/articles/${article.id}`)}
                       style={{ cursor: "pointer" }}
@@ -60,10 +62,8 @@ function ArticleList() {
                     </span>
                   </Col>
                   <Col md="1">{article.writerNickname}</Col>
-                  <Col md="3">
-                    {article.bookTitle.length > 20
-                      ? `${article.bookTitle.substring(0, 18)}...`
-                      : article.bookTitle}
+                  <Col md="3" className="ellipsis">
+                    {article.bookTitle}
                   </Col>
                   <Col md="2">{article.createdAt}</Col>
                 </Row>
