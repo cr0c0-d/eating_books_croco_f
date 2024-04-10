@@ -82,7 +82,7 @@ function Article() {
     return response;
   };
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.accessToken) {
       getArticleAuth();
     } else {
       getArticle();
