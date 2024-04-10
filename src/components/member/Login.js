@@ -81,10 +81,15 @@ function Login() {
       const userdata = {
         accessToken: response.data.accessToken,
         nickname: response.data.nickname,
+        id: response.data.id,
+        role: response.data.role,
       };
       localStorage.setItem("userdata", JSON.stringify(userdata));
-      const nickname = response.data.nickname;
-      setUserInfo({ nickname: nickname });
+      setUserInfo({
+        nickname: response.data.nickname,
+        id: response.data.id,
+        role: response.data.role,
+      });
 
       if (location.state && location.state.beforeUrl) {
         // 이전 페이지 기록이 있으면

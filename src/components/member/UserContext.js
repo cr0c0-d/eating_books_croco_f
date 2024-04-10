@@ -13,6 +13,8 @@ export const UserProvider = ({ children }) => {
     if (userdata) {
       let newUserInfo = {};
       newUserInfo.nickname = userdata.nickname;
+      newUserInfo.id = userdata.id;
+      newUserInfo.role = userdata.role;
       setUserInfo(newUserInfo);
     }
   }, []);
