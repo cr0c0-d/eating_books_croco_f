@@ -6,6 +6,7 @@ import Layout from "./Layout";
 import WriteArticle from "./components/article/WriteArticle";
 import Article from "./components/article/Article";
 import ArticleList from "./components/article/ArticleList";
+import Member from "./components/member/Member";
 function App() {
   const router = createBrowserRouter([
     {
@@ -18,6 +19,7 @@ function App() {
         { path: "/newArticle", element: <WriteArticle /> },
         { path: "/articles", element: <ArticleList /> },
         { path: "/articles/*", element: <Article /> },
+        { path: "/members/*", element: <Member /> },
       ],
     },
   ]);
