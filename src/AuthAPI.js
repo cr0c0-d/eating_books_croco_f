@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useUser } from "./components/member/UserContext";
+
 // 쿠키를 가져오는 함수
 function getCookie(key) {
   var result = null;
@@ -23,7 +23,9 @@ function getCookie(key) {
 // data = "{ index : 1, ... }"
 // success, fail = 성공/실패시 메서드
 const AuthAPI = async ({ url, method, data, success, fail }) => {
+  console.log("AuthAPI");
   const refresh_token = getCookie("refresh_token");
+
   if (!refresh_token || !localStorage.getItem("userdata")) {
     return fail();
   }
@@ -39,7 +41,6 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
     },
     data: data,
   }).catch(async (error) => {
-    console.log("error : " + error);
     if (error.response.status === 401) {
       // 401 : unauthorized (액세스 토큰 만료)
       const res = await axios({
@@ -56,6 +57,14 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
         // 리프레쉬 토큰도 잘못됨
         return fail(error);
       });
+
+      if (res === undefined) {
+        // 리프레쉬 토큰이 잘못됐으면
+        localStorage.removeItem("userdata"); // userdata 삭제(로그인 상태 해제)
+        //setUserInfo({}); // UserContext의 userInfo 삭제
+        return;
+      }
+
       if (res.status === 201 || res.status === 200) {
         // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
         const userInfo = JSON.parse(localStorage.getItem("userdata"));
