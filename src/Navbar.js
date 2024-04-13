@@ -42,8 +42,10 @@ function Navbar_c() {
           <Nav>
             {userInfo.nickname ? (
               <NavDropdown title={userInfo.nickname}>
-                <NavDropdown.Item href="#">마이페이지</NavDropdown.Item>
-                <NavDropdown.Item href="#">정보 수정</NavDropdown.Item>
+                <NavDropdown.Item href="">마이페이지</NavDropdown.Item>
+                <NavDropdown.Item href={`/members/${userInfo.id}`}>
+                  정보 수정
+                </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={logoutAPI}>
                   로그아웃
