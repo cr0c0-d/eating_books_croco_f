@@ -9,11 +9,13 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import FileUpload from "../../FileUpload";
 import axios from "axios";
+import { useUser } from "./UserContext";
 
 function Member() {
   const [memberInfo, setMemberInfo] = useState(null);
   const [profileImg, setProfileImg] = useState("");
   const [editNickname, setEditNickname] = useState(false);
+  const { userInfo, setUserInfo } = useUser();
 
   const history = useNavigate();
   const findMember = () => {
@@ -75,7 +77,10 @@ function Member() {
       method: "PUT",
       data: memberInfo,
       success: (response) => {
-        console.log("성공");
+        console.log("회원정보 저장 성공");
+        if (Number(userInfo.id) === Number(memberInfo.id)) {
+          setUserInfo({ ...userInfo, nickname: memberInfo.nickname });
+        }
         window.location.reload();
       },
       fail: (err) => {
