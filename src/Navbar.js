@@ -4,10 +4,11 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import { useUser } from "./components/member/UserContext";
-import { useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 
 function Navbar_c() {
   const history = useNavigate();
+  const location = useLocation();
   const { userInfo, setUserInfo } = useUser();
 
   const logoutAPI = async () => {
@@ -19,11 +20,14 @@ function Navbar_c() {
       if (response.status === 200) {
         localStorage.removeItem("userdata");
         setUserInfo({});
+        window.location.reload();
       }
     });
   };
   const toLoginPage = () => {
-    history("/login");
+    history("/login", {
+      state: { ...location.state, beforeUrl: window.location.pathname },
+    });
   };
 
   return (
