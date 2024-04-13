@@ -69,6 +69,7 @@ function SignUpForm() {
         email: formData.email,
         password: formData.password,
         nickname: formData.nickname,
+        profileImg: "https://i.ibb.co/LzfM6Mx/member1712982423627.jpg",
       }),
     }).catch((error) => {
       // 중복된 이메일
