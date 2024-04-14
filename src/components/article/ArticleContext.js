@@ -7,7 +7,7 @@ export const useArticle = () => useContext(ArticleContext);
 export const ArticleProvider = ({ children }) => {
   const [articleMode, setArticleMode] = useState("template");
   const [articleSave, setArticleSave] = useState(false);
-  const [articleContents, setArticleContents] = useState("");
+  const [articleContents, setArticleContents] = useState(null);
 
   return (
     <ArticleContext.Provider

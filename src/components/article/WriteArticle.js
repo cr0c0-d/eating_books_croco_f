@@ -1,9 +1,9 @@
 import { ArticleProvider } from "./ArticleContext";
-import NewArticle from "./NewArticle";
+import UpdateArticle from "./UpdateArticle";
 function WriteArticle() {
   return (
     <ArticleProvider>
-      <NewArticle />
+      <UpdateArticle />
     </ArticleProvider>
   );
 }
