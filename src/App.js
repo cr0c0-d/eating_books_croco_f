@@ -16,7 +16,7 @@ function App() {
         { path: "/search", element: <SearchBooks /> },
         { path: "/signup", element: <SignUpForm /> },
         { path: "/login", element: <Login /> },
-        { path: "/newArticle", element: <WriteArticle /> },
+        { path: "/writeArticle", element: <WriteArticle /> },
         { path: "/articles", element: <ArticleList /> },
         { path: "/articles/*", element: <Article /> },
         { path: "/members/*", element: <Member /> },
