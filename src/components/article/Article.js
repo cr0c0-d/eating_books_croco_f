@@ -82,7 +82,7 @@ function Article() {
     return response;
   };
   useEffect(() => {
-    if (userInfo && userInfo.accessToken) {
+    if (userInfo) {
       getArticleAuth();
     } else {
       getArticle();
@@ -100,7 +100,26 @@ function Article() {
           <h1 className="mt-4 mb-4">{article.title}</h1>
           <Row>
             <h5>
-              {article.writer.nickname} {article.createdAt}
+              {article.writerNickname} {article.createdAt}{" "}
+              {article.editableYn ? (
+                <div>
+                  <Button
+                    onClick={() => {
+                      history("/writeArticle", {
+                        state: {
+                          book: book,
+                          article: article,
+                        },
+                      });
+                    }}
+                  >
+                    수정
+                  </Button>{" "}
+                  <Button>삭제</Button>
+                </div>
+              ) : (
+                ""
+              )}
             </h5>
           </Row>
 
