@@ -81,10 +81,10 @@ function BookDetail({ book, clickClose }) {
                       <Button
                         variant="primary"
                         onClick={() =>
-                          history("/newArticle", {
+                          history("/writeArticle", {
                             state: {
                               book: book,
-                              articleType: "B",
+                              article: { articleType: "B" },
                             },
                           })
                         }
@@ -97,10 +97,10 @@ function BookDetail({ book, clickClose }) {
                       <Button
                         variant="primary"
                         onClick={() =>
-                          history("/newArticle", {
+                          history("/writeArticle", {
                             state: {
                               book: book,
-                              articleType: "A",
+                              article: { articleType: "A" },
                             },
                           })
                         }
