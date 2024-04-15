@@ -23,7 +23,7 @@ function BookCard({ book, clickCard }) {
           <ListGroup.Item className="ellipsis">
             <Badge bg="secondary">저자</Badge> {book.author}
           </ListGroup.Item>
-          <ListGroup.Item>
+          <ListGroup.Item className="ellipsis">
             <Badge bg="secondary">출판사</Badge> {book.publisher}
           </ListGroup.Item>
           <ListGroup.Item>
