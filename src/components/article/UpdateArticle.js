@@ -11,7 +11,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
 import AuthAPI from "../../AuthAPI";
-import BookDetail from "../book/BookDetail";
+import BookDetailModal from "../book/BookDetailModal";
 import UpdateArticleTemplates from "./UpdateArticleTemplates";
 import UpdateArticleEditor from "./UpdateArticleEditor";
 import { useArticle } from "./ArticleContext";
@@ -54,6 +54,7 @@ function UpdateArticle() {
         setArticleContents(article.content);
       }
       setArticleMode(article.writeType);
+      setTitle(article.title);
     } else {
       // 새 글을 작성하는 경우
       setArticleContents("");
@@ -208,7 +209,7 @@ function UpdateArticle() {
       </Button>
 
       <Modal show={show} onHide={() => setShow(false)} centered size="xl">
-        <BookDetail book={book} clickClose={() => setShow(false)} />
+        <BookDetailModal book={book} clickClose={() => setShow(false)} />
       </Modal>
     </div>
   );

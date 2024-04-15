@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
-import BookDetail from "./BookDetail";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import axios from "axios";

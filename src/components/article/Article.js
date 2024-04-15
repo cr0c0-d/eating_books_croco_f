@@ -3,16 +3,13 @@ import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Badge from "react-bootstrap/Badge";
-import Image from "react-bootstrap/Image";
-import ListGroup from "react-bootstrap/ListGroup";
 
 import axios from "axios";
 import AuthAPI from "../../AuthAPI";
 import { useUser } from "../member/UserContext";
 import BookCard from "../book/BookCard";
+import BookDetail from "../book/BookDetail";
 
 function Article() {
   const history = useNavigate();
@@ -123,54 +120,7 @@ function Article() {
             </h5>
           </Row>
 
-          {book ? (
-            <Row className="justify-content-md-center">
-              <Col xl={8}>
-                <Card>
-                  <Card.Body>
-                    <Row>
-                      <Col>
-                        <Image
-                          variant="top"
-                          src={book.image}
-                          fluid
-                          //style={{ height: "40rem" }}
-                        />
-                      </Col>
-                      <Col xl={8}>
-                        <Row>
-                          <h5>{book.title}</h5>
-                        </Row>
-                        <ListGroup className="list-group-flush">
-                          <ListGroup.Item>
-                            <Badge bg="secondary">저자</Badge> {book.author}
-                          </ListGroup.Item>
-                          <ListGroup.Item>
-                            <Badge bg="secondary">출판사</Badge>{" "}
-                            {book.publisher}
-                          </ListGroup.Item>
-                          <ListGroup.Item>
-                            <Badge bg="secondary">발행일</Badge>{" "}
-                            {book.pubdate.length == 8
-                              ? `${book.pubdate.substring(
-                                  0,
-                                  4
-                                )}.${book.pubdate.substring(
-                                  4,
-                                  6
-                                )}.${book.pubdate.substring(6, 8)}.`
-                              : "정보없음"}
-                          </ListGroup.Item>
-                        </ListGroup>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          ) : (
-            ""
-          )}
+          {book ? <BookDetail book={book} /> : ""}
           <br />
 
           {article && article.writeType === "template"

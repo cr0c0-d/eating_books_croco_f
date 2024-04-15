@@ -1,7 +1,7 @@
 import Row from "react-bootstrap/Row";
 import BookCard from "./BookCard";
 import Modal from "react-bootstrap/Modal";
-import BookDetail from "./BookDetail";
+import BookDetailModal from "./BookDetailModal";
 import { useState } from "react";
 
 function BookList({ books }) {
@@ -29,7 +29,7 @@ function BookList({ books }) {
       </Row>
 
       <Modal show={show} onHide={() => setShow(false)} centered size="xl">
-        <BookDetail book={bookDetail} clickClose={onClickCard} />
+        <BookDetailModal book={bookDetail} clickClose={onClickCard} />
       </Modal>
     </div>
   );
