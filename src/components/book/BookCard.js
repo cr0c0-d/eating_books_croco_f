@@ -20,7 +20,7 @@ function BookCard({ book, clickCard }) {
         <Card.Img variant="top" src={book.image} style={{ height: "20rem" }} />
 
         <ListGroup className="list-group-flush">
-          <ListGroup.Item>
+          <ListGroup.Item className="ellipsis">
             <Badge bg="secondary">저자</Badge> {book.author}
           </ListGroup.Item>
           <ListGroup.Item>
@@ -28,12 +28,15 @@ function BookCard({ book, clickCard }) {
           </ListGroup.Item>
           <ListGroup.Item>
             <Badge bg="secondary">발행일</Badge>{" "}
-            {book.pubdate.length == 8
-              ? `${book.pubdate.substring(0, 4)}.${book.pubdate.substring(
-                  4,
-                  6
-                )}.${book.pubdate.substring(6, 8)}.`
-              : "정보없음"}
+            {
+              // book.pubdate.length == 8
+              //   ? `${book.pubdate.substring(0, 4)}.${book.pubdate.substring(
+              //       4,
+              //       6
+              //     )}.${book.pubdate.substring(6, 8)}.`
+              //   : "정보없음"
+              book.pubdate
+            }
           </ListGroup.Item>
         </ListGroup>
       </Card>

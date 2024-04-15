@@ -136,9 +136,9 @@ function SearchBooks() {
           <BookList books={books} />
           <hr />
           <Paging
-            curIndex={(searchInfo.start - 1) / 10 + 1}
+            curIndex={searchInfo.start}
             totalResults={searchInfo.total}
-            itemsPerPage="10"
+            itemsPerPage={searchInfo.display}
             setIndex={chIdx}
           />
         </div>

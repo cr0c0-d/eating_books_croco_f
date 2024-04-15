@@ -28,7 +28,7 @@ function BookDetail({ book, clickClose }) {
                   variant="top"
                   src={book.image}
                   fluid
-                  //style={{ height: "40rem" }}
+                  style={{ width: "100%", height: "auto" }}
                 />
               </Col>
               <Col xl={8}>
@@ -50,15 +50,18 @@ function BookDetail({ book, clickClose }) {
                   <div>
                     <p>
                       <Badge bg="secondary">발행일</Badge>{" "}
-                      {book.pubdate.length == 8
-                        ? `${book.pubdate.substring(
-                            0,
-                            4
-                          )}.${book.pubdate.substring(
-                            4,
-                            6
-                          )}.${book.pubdate.substring(6, 8)}.`
-                        : "정보없음"}
+                      {
+                        // book.pubdate.length == 8
+                        //   ? `${book.pubdate.substring(
+                        //       0,
+                        //       4
+                        //     )}.${book.pubdate.substring(
+                        //       4,
+                        //       6
+                        //     )}.${book.pubdate.substring(6, 8)}.`
+                        //   : "정보없음"
+                        book.pubdate
+                      }
                     </p>
                   </div>
                 </Row>
@@ -68,55 +71,58 @@ function BookDetail({ book, clickClose }) {
                     <p style={{ whiteSpace: "pre-wrap" }}>{book.description}</p>
                   </div>
                 </Row>
+
+                {window.location.pathname === "/search" ? (
+                  <div>
+                    <br />
+                    <br />
+                    <Row>
+                      <div>
+                        <p style={{ textAlign: "right" }}>
+                          아직 읽기 전이라면?{" "}
+                          <Button
+                            variant="primary"
+                            onClick={() =>
+                              history("/writeArticle", {
+                                state: {
+                                  book: book,
+                                  article: { articleType: "B" },
+                                },
+                              })
+                            }
+                          >
+                            식전문 쓰기
+                          </Button>
+                        </p>
+                        <p style={{ textAlign: "right" }}>
+                          다 읽었다면?{" "}
+                          <Button
+                            variant="primary"
+                            onClick={() =>
+                              history("/writeArticle", {
+                                state: {
+                                  book: book,
+                                  article: { articleType: "A" },
+                                },
+                              })
+                            }
+                          >
+                            식후문 쓰기
+                          </Button>
+                        </p>
+                        <p style={{ textAlign: "right" }}>
+                          <Button variant="secondary">
+                            이 책에 대한 글 보기
+                          </Button>
+                        </p>
+                      </div>
+                    </Row>
+                  </div>
+                ) : (
+                  ""
+                )}
               </Col>
             </Row>
-            {window.location.pathname === "/search" ? (
-              <div>
-                <br />
-                <br />
-                <Row>
-                  <div>
-                    <p style={{ textAlign: "right" }}>
-                      아직 읽기 전이라면?{" "}
-                      <Button
-                        variant="primary"
-                        onClick={() =>
-                          history("/writeArticle", {
-                            state: {
-                              book: book,
-                              article: { articleType: "B" },
-                            },
-                          })
-                        }
-                      >
-                        식전문 쓰기
-                      </Button>
-                    </p>
-                    <p style={{ textAlign: "right" }}>
-                      다 읽었다면?{" "}
-                      <Button
-                        variant="primary"
-                        onClick={() =>
-                          history("/writeArticle", {
-                            state: {
-                              book: book,
-                              article: { articleType: "A" },
-                            },
-                          })
-                        }
-                      >
-                        식후문 쓰기
-                      </Button>
-                    </p>
-                    <p style={{ textAlign: "right" }}>
-                      <Button variant="secondary">이 책에 대한 글 보기</Button>
-                    </p>
-                  </div>
-                </Row>
-              </div>
-            ) : (
-              ""
-            )}
           </ModalBody>
           <ModalFooter>
             <Button variant="secondary" onClick={() => clickClose(null)}>
