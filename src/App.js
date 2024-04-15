@@ -5,8 +5,9 @@ import Login from "./components/member/Login";
 import Layout from "./Layout";
 import WriteArticle from "./components/article/WriteArticle";
 import Article from "./components/article/Article";
-import ArticleList from "./components/article/ArticleList";
 import Member from "./components/member/Member";
+import LastArticleList from "./components/article/LastArticleList";
+import ArticleListByIsbn from "./components/article/ArticleListByIsbn";
 function App() {
   const router = createBrowserRouter([
     {
@@ -17,9 +18,10 @@ function App() {
         { path: "/signup", element: <SignUpForm /> },
         { path: "/login", element: <Login /> },
         { path: "/writeArticle", element: <WriteArticle /> },
-        { path: "/articles", element: <ArticleList /> },
+        { path: "/articles", element: <LastArticleList /> },
         { path: "/articles/*", element: <Article /> },
         { path: "/members/*", element: <Member /> },
+        { path: "/articles/book/*", element: <ArticleListByIsbn /> },
       ],
     },
   ]);

@@ -8,34 +8,11 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function ArticleList() {
+function ArticleList({ articleList }) {
   const history = useNavigate();
-  const [articleList, setArticleList] = useState(null);
-  // 글 목록 가져오기
-  const getArticleList = async () => {
-    const response = await axios({
-      url: `${process.env.REACT_APP_API_ROOT}/api/articles`,
-      method: "GET",
-    }).catch((error) => {
-      if (error) {
-        console.log(error);
-      }
-    });
-
-    if (response.status === 200) {
-      // 조회 성공
-      setArticleList(response.data);
-    }
-    return response;
-  };
-
-  useEffect(() => {
-    getArticleList();
-  }, []);
 
   return (
     <div>
-      <h1 className="mt-4 mb-4">최신 글 목록</h1>
       <ListGroup>
         <ListGroup.Item variant="success">
           <Row>
