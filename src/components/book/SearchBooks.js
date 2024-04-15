@@ -12,8 +12,11 @@ import { useState, useRef, useEffect } from "react";
 
 import BookList from "./BookList";
 import Paging from "./Paging";
+import BestSeller from "./BestSeller";
 
 import AladinApiSearchBooksAPI from "../../api/Aladin/AladinApiSearchBooksAPI";
+import BestBooksInBeforeArticles from "./BestBooksInAfterArticles";
+import BestBooksInAfterArticles from "./BestBooksInBeforeArticles";
 
 function SearchBooks() {
   /**
@@ -131,7 +134,7 @@ function SearchBooks() {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         </Modal>
-      ) : books !== null ? (
+      ) : books.length != 0 ? (
         <div>
           <BookList books={books} />
           <hr />
@@ -143,7 +146,13 @@ function SearchBooks() {
           />
         </div>
       ) : (
-        ""
+        <div>
+          <BestBooksInBeforeArticles />
+          <hr />
+          <BestBooksInAfterArticles />
+          <hr />
+          <BestSeller />
+        </div>
       )}
     </div>
   );
