@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import BookList from "./BookList";
 
-function BestBooksInBeforeArticles() {
+function BestBooksInBeforeArticles({ loaded }) {
   const [books, setBooks] = useState([]);
 
   const getBestBooksInBeforeArticles = async () => {
@@ -15,6 +15,7 @@ function BestBooksInBeforeArticles() {
     }).catch((error) => {});
     if (axiosResponse) {
       setBooks(axiosResponse.data);
+      loaded(true);
     }
   };
   useEffect(() => {

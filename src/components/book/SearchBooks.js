@@ -12,11 +12,9 @@ import { useState, useRef, useEffect } from "react";
 
 import BookList from "./BookList";
 import Paging from "./Paging";
-import BestSeller from "./BestSeller";
 
 import AladinApiSearchBooksAPI from "../../api/Aladin/AladinApiSearchBooksAPI";
-import BestBooksInBeforeArticles from "./BestBooksInAfterArticles";
-import BestBooksInAfterArticles from "./BestBooksInBeforeArticles";
+import BestBooks from "./BestBooks";
 
 function SearchBooks() {
   /**
@@ -147,11 +145,7 @@ function SearchBooks() {
         </div>
       ) : (
         <div>
-          <BestBooksInBeforeArticles />
-          <hr />
-          <BestBooksInAfterArticles />
-          <hr />
-          <BestSeller />
+          <BestBooks />
         </div>
       )}
     </div>
