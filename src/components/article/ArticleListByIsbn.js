@@ -15,7 +15,7 @@ function ArticleListByIsbn() {
       url: `${process.env.REACT_APP_API_ROOT}/api/books/${isbn}`,
       method: "GET",
     }).catch((error) => {
-      console.log(error.response);
+      alert("책 정보 조회에 실패했습니다.");
       return null;
     });
 

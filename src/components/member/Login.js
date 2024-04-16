@@ -25,7 +25,6 @@ function Login() {
 
   // 페이지 이동
   const afterLoginRedirect = () => {
-    console.log(location.state);
     if (location.state && location.state.beforeUrl) {
       // 이전 페이지 기록이 있으면
       history(location.state.beforeUrl, { state: { ...location.state } });

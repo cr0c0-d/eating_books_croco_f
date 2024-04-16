@@ -11,7 +11,7 @@ function LastArticleList() {
       method: "GET",
     }).catch((error) => {
       if (error) {
-        console.log(error);
+        alert("글 조회에 실패했습니다.");
       }
     });
 

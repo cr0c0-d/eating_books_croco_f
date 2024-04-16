@@ -57,7 +57,7 @@ function Article() {
           alert("조회 권한이 없습니다.");
           history(-1);
         } else {
-          // 권한 없음 -> 로그인 페이지로 이동
+          // 로그인정보 없음 -> 로그인 페이지로 이동
           history("/login", { state: { beforeUrl: window.location.pathname } });
         }
       },
@@ -69,7 +69,7 @@ function Article() {
       url: `${process.env.REACT_APP_API_ROOT}/api/books/${article.isbn}`,
       method: "GET",
     }).catch((error) => {
-      console.log(error.response);
+      alert("책 정보 조회에 실패했습니다.");
       return null;
     });
 
