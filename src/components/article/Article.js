@@ -10,6 +10,7 @@ import AuthAPI from "../../AuthAPI";
 import { useUser } from "../member/UserContext";
 import BookCard from "../book/BookCard";
 import BookDetail from "../book/BookDetail";
+import { Image } from "react-bootstrap";
 
 function Article() {
   const history = useNavigate();
@@ -92,12 +93,24 @@ function Article() {
   }, [article]);
   return (
     <div>
+      <br />
+      <br />
+      {book ? <BookDetail book={book} /> : ""}
+      <br />
       {article ? (
         <div>
           <h1 className="mt-4 mb-4">{article.title}</h1>
           <Row>
             <h5>
-              {article.writerNickname} {article.createdAt}{" "}
+              <Image
+                src={article.writerImg}
+                roundedCircle
+                style={{ width: "30px", height: "30px" }}
+              />{" "}
+              <a href={`/articles/member/${article.writerId}`}>
+                {article.writerNickname}
+              </a>{" "}
+              {article.createdAt}{" "}
               {article.editableYn ? (
                 <div>
                   <Button
@@ -120,7 +133,6 @@ function Article() {
             </h5>
           </Row>
 
-          {book ? <BookDetail book={book} /> : ""}
           <br />
 
           {article && article.writeType === "template"
