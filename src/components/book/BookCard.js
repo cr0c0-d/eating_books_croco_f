@@ -16,7 +16,7 @@ function BookCard({ book, clickCard }) {
           {book.title}
         </Card.Header>
 
-        <Card.Img variant="top" src={book.image} style={{ height: "20rem" }} />
+        <Card.Img variant="top" src={book.image} style={{ height: "21rem" }} />
 
         <ListGroup className="list-group-flush">
           <ListGroup.Item className="ellipsis">

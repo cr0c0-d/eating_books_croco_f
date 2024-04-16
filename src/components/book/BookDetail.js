@@ -32,16 +32,7 @@ function BookDetail({ book }) {
                     <Badge bg="secondary">출판사</Badge> {book.publisher}
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <Badge bg="secondary">발행일</Badge>{" "}
-                    {book.pubdate.length == 8
-                      ? `${book.pubdate.substring(
-                          0,
-                          4
-                        )}.${book.pubdate.substring(
-                          4,
-                          6
-                        )}.${book.pubdate.substring(6, 8)}.`
-                      : "정보없음"}
+                    <Badge bg="secondary">발행일</Badge> {book.pubdate}
                   </ListGroup.Item>
                 </ListGroup>
               </Col>

@@ -61,6 +61,8 @@ function ArticleListByIsbn() {
   //   }, [book]);
   return (
     <div>
+      <br />
+      <br />
       {book ? <BookDetail book={book} /> : ""}
       <br />
       <h4 className="mt-4 mb-4">이 책의 글</h4>
