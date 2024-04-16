@@ -8,6 +8,7 @@ import Article from "./components/article/Article";
 import Member from "./components/member/Member";
 import LastArticleList from "./components/article/LastArticleList";
 import ArticleListByIsbn from "./components/article/ArticleListByIsbn";
+import MemberArticles from "./components/member/MemberArticles";
 function App() {
   const router = createBrowserRouter([
     {
@@ -22,6 +23,7 @@ function App() {
         { path: "/articles/*", element: <Article /> },
         { path: "/members/*", element: <Member /> },
         { path: "/articles/book/*", element: <ArticleListByIsbn /> },
+        { path: "/articles/member/*", element: <MemberArticles /> },
       ],
     },
   ]);
