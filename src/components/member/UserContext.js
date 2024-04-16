@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useState, useContext, useEffect } from "react";
 
 const UserContext = createContext();
@@ -19,8 +20,24 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
+  const logoutAPI = async (reloadYn) => {
+    await axios({
+      url: `${process.env.REACT_APP_API_ROOT}/logout`,
+      method: "GET",
+      withCredentials: true,
+    }).then((response) => {
+      if (response.status === 200) {
+        localStorage.removeItem("userdata");
+        setUserInfo({});
+        if (reloadYn) {
+          window.location.reload();
+        }
+      }
+    });
+  };
+
   return (
-    <UserContext.Provider value={{ userInfo, setUserInfo }}>
+    <UserContext.Provider value={{ userInfo, setUserInfo, logoutAPI }}>
       {children}
     </UserContext.Provider>
   );

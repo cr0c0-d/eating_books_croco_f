@@ -15,7 +15,7 @@ function Member() {
   const [memberInfo, setMemberInfo] = useState(null);
   const [profileImg, setProfileImg] = useState("");
   const [editNickname, setEditNickname] = useState(false);
-  const { userInfo, setUserInfo } = useUser();
+  const { userInfo, setUserInfo, logoutAPI } = useUser();
 
   const history = useNavigate();
   const findMember = () => {
@@ -24,17 +24,18 @@ function Member() {
       method: "GET",
       data: null,
       success: (response) => {
-        console.log("성공");
         setMemberInfo({ ...response.data, password: "" });
         setProfileImg(response.data.profileImg);
       },
       fail: (err) => {
-        if (err) {
-          console.log(err);
-          if (err.response.status == 403) {
-            alert("권한이 없습니다.");
-            history(-1);
-          }
+        if (err && err.response.status == 403) {
+          alert("권한이 없습니다.");
+          history(-1);
+        } else if (!err || err.response.status === 500) {
+          logoutAPI(false);
+          history("/login", {
+            state: { beforeUrl: window.location.pathname },
+          });
         }
       },
     });
@@ -58,12 +59,8 @@ function Member() {
         image: file,
         name: "member" + date.valueOf(),
       },
-    }).catch((err) => {
-      console.log("실패");
-      console.log(err);
-    });
+    }).catch((err) => {});
     if (axiosResponse) {
-      console.log(axiosResponse);
       setMemberInfo({
         ...memberInfo,
         profileImg: axiosResponse.data.data.url,
@@ -77,15 +74,17 @@ function Member() {
       method: "PUT",
       data: memberInfo,
       success: (response) => {
-        console.log("회원정보 저장 성공");
         if (Number(userInfo.id) === Number(memberInfo.id)) {
-          setUserInfo({ ...userInfo, nickname: memberInfo.nickname });
+          //setUserInfo({ ...userInfo, nickname: memberInfo.nickname });
+          const userdata = JSON.parse(localStorage.getItem("userdata"));
+          userdata.nickname = memberInfo.nickname;
+          localStorage.setItem("userdata", JSON.stringify(userdata));
         }
         window.location.reload();
       },
       fail: (err) => {
         if (err) {
-          console.log(err);
+          alert("회원정보 저장에 실패했습니다.");
         }
       },
     });

@@ -15,6 +15,7 @@ import BookDetailModal from "../book/BookDetailModal";
 import UpdateArticleTemplates from "./UpdateArticleTemplates";
 import UpdateArticleEditor from "./UpdateArticleEditor";
 import { useArticle } from "./ArticleContext";
+import { useUser } from "../member/UserContext";
 
 function UpdateArticle() {
   const history = useNavigate();
@@ -22,6 +23,7 @@ function UpdateArticle() {
   const [templates, setTemplates] = useState(null);
   const [publicYn, setPublicYn] = useState(true);
   const [title, setTitle] = useState("");
+  const { userInfo, setUserInfo, logoutAPI } = useUser();
 
   const [show, setShow] = useState(false);
   const {
@@ -36,6 +38,7 @@ function UpdateArticle() {
   const article = location.state.article;
 
   const fail = () => {
+    logoutAPI(false);
     location.state.beforeUrl = window.location.pathname;
     // 권한 없음 -> 로그인 페이지로 이동
     history(
@@ -132,7 +135,7 @@ function UpdateArticle() {
           },
           fail: (error) => {
             if (error) {
-              console.log(error);
+              alert("글 저장에 실패하였습니다.");
             }
           },
         });

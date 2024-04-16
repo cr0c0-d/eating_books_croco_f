@@ -54,8 +54,10 @@ const AuthAPI = async ({ url, method, data, success, fail }) => {
           refreshToken: getCookie("refresh_token"),
         }),
       }).catch((error) => {
-        // 리프레쉬 토큰도 잘못됨
-        return fail(error);
+        if (error.response.status === 500) {
+          // 리프레쉬 토큰도 잘못됨
+          return fail(error);
+        }
       });
 
       if (res === undefined) {

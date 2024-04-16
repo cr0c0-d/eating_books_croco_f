@@ -17,13 +17,13 @@ function MemberArticles() {
   const { userInfo, setUserInfo } = useUser();
 
   const history = useNavigate();
-  const findMemberArticles = async () => {
+  const getMemberArticles = async () => {
     const response = await axios({
       url: `${process.env.REACT_APP_API_ROOT}/api${window.location.pathname}`,
       method: "GET",
     }).catch((error) => {
       if (error) {
-        console.log(error);
+        alert("글 정보 조회에 실패했습니다.");
       }
     });
 
@@ -32,15 +32,43 @@ function MemberArticles() {
       setMemberInfo(response.data);
     }
   };
+
+  const getMemberArticlesAuth = async () => {
+    AuthAPI({
+      url: `/api${window.location.pathname}`,
+      method: "GET",
+      data: null,
+      success: (response) => {
+        if (response.status === 200) {
+          // 조회 성공
+          setMemberInfo(response.data);
+        }
+      },
+      fail: (error) => {
+        alert("글 정보 조회에 실패했습니다.");
+        if (error && error.response.status === 403) {
+          alert("조회 권한이 없습니다.");
+          history(-1);
+        } else {
+          // 로그인정보 없음 -> 로그인 페이지로 이동
+          history("/login", { state: { beforeUrl: window.location.pathname } });
+        }
+      },
+    });
+  };
+
   useEffect(() => {
-    findMemberArticles();
+    if (userInfo) {
+      getMemberArticlesAuth();
+    } else {
+      getMemberArticles();
+    }
   }, []);
 
   return (
     <div>
       {memberInfo ? (
         <div>
-          <h1 className="mt-4 mb-4">회원 작성글 보기</h1>
           <Row className="justify-content-md-center">
             <Col xs={3} md={3}>
               <Image fluid src={memberInfo.profileImg} roundedCircle />
@@ -66,6 +94,8 @@ function MemberArticles() {
           <br />
           <h4>공개 글 목록</h4>
           <ArticleList articleList={memberInfo.publicArticleList} />
+          <br />
+
           {memberInfo.privateArticleList ? (
             <div>
               <h4>비공개 글 목록</h4>
