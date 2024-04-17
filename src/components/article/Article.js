@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 
 import axios from "axios";
@@ -14,6 +14,7 @@ import { Image } from "react-bootstrap";
 
 function Article() {
   const history = useNavigate();
+  const location = useLocation();
   const [article, setArticle] = useState(null);
   const [book, setBook] = useState(null);
   const { userInfo } = useUser();
@@ -91,6 +92,29 @@ function Article() {
       getBook();
     }
   }, [article]);
+
+  const deleteArticle = () => {
+    AuthAPI({
+      url: `/api${window.location.pathname}`,
+      method: "DELETE",
+      data: null,
+      success: (response) => {
+        if (response.status === 200) {
+          // 삭제 성공
+          history(-1, { state: { beforeUrl: window.location.pathname } });
+        }
+      },
+      fail: (error) => {
+        if (error && error.response.status === 403) {
+          alert("삭제 권한이 없습니다.");
+          history(-1);
+        } else {
+          // 로그인정보 없음 -> 로그인 페이지로 이동
+          history("/login", { state: { beforeUrl: window.location.pathname } });
+        }
+      },
+    });
+  };
   return (
     <div>
       <br />
@@ -125,7 +149,17 @@ function Article() {
                   >
                     수정
                   </Button>{" "}
-                  <Button>삭제</Button>
+                  <Button
+                    onClick={() => {
+                      if (window.confirm("삭제하시겠습니까?")) {
+                        deleteArticle();
+                      } else {
+                        return;
+                      }
+                    }}
+                  >
+                    삭제
+                  </Button>
                 </div>
               ) : (
                 ""
