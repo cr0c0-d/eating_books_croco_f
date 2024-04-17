@@ -25,7 +25,11 @@ function Login() {
 
   // 페이지 이동
   const afterLoginRedirect = () => {
-    if (location.state && location.state.beforeUrl) {
+    if (
+      location.state &&
+      location.state.beforeUrl &&
+      location.state.beforeUrl !== "/search"
+    ) {
       // 이전 페이지 기록이 있으면
       history(location.state.beforeUrl, { state: { ...location.state } });
     } else {
