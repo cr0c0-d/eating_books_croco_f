@@ -7,30 +7,70 @@ import { useNavigate } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Badge } from "react-bootstrap";
 
-function ArticleList({ articleList }) {
+function ArticleList({ articleList, hideColumn }) {
   const history = useNavigate();
 
+  // 각 컬럼의 너비
+  let colWidth = {
+    articleTitle: 6,
+    writerNickname: 2,
+    bookTitle: 3,
+    createdAt: 1,
+  };
+
+  // 보여줄 컬럼 - 기본값은 모두 보여주기(true)
+  let showColumn = { articleType: true, writerNickname: true, bookTitle: true };
+  if (hideColumn) {
+    hideColumn.map((col) => {
+      showColumn[col] = false;
+      colWidth.articleTitle += colWidth[col];
+    });
+    console.log(hideColumn);
+    console.log(showColumn);
+  }
+
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <ListGroup>
         <ListGroup.Item variant="success">
           <Row>
-            <Col md="1">글 유형</Col>
-            <Col md="5">제목</Col>
-            <Col md="1">작성자</Col>
-            <Col md="3">책 제목</Col>
-            <Col md="2">작성일시</Col>
+            <Col md={colWidth.articleTitle}>제목</Col>
+            {showColumn.writerNickname ? (
+              <Col md={colWidth.writerNickname}>작성자</Col>
+            ) : (
+              ""
+            )}
+            {showColumn.bookTitle ? (
+              <Col md={colWidth.bookTitle}>책 제목</Col>
+            ) : (
+              ""
+            )}
+            <Col md={colWidth.createdAt}>작성일시</Col>
           </Row>
         </ListGroup.Item>
         {articleList && articleList.length > 0 ? (
           articleList.map((article) => (
             <ListGroup.Item key={article.id}>
               <Row>
-                <Col md="1">
-                  {article.articleType == "B" ? "식전문" : "식후문"}
-                </Col>
-                <Col md="5" className="ellipsis">
+                <Col
+                  md={colWidth.articleTitle}
+                  className="ellipsis"
+                  style={{ textAlign: "left" }}
+                >
+                  {showColumn.articleType ? (
+                    <span>
+                      <Badge
+                        pill
+                        bg={article.articleType == "B" ? "success" : "primary"}
+                      >
+                        {article.articleType == "B" ? "식전문" : "식후문"}
+                      </Badge>{" "}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                   <span
                     onClick={() => history(`/articles/${article.id}`)}
                     style={{ cursor: "pointer" }}
@@ -38,13 +78,33 @@ function ArticleList({ articleList }) {
                     {article.title}
                   </span>
                 </Col>
-                <Col md="1" className="ellipsis">
-                  {article.writerNickname}
-                </Col>
-                <Col md="3" className="ellipsis">
-                  {article.bookTitle}
-                </Col>
-                <Col md="2">{article.createdAt}</Col>
+                {showColumn.writerNickname ? (
+                  <Col md={colWidth.writerNickname} className="ellipsis">
+                    <span
+                      onClick={() =>
+                        history(`/articles/member/${article.writerId}`)
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      {article.writerNickname}
+                    </span>
+                  </Col>
+                ) : (
+                  ""
+                )}
+                {showColumn.bookTitle ? (
+                  <Col md={colWidth.bookTitle} className="ellipsis">
+                    <span
+                      onClick={() => history(`/articles/book/${article.isbn}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {article.bookTitle}
+                    </span>
+                  </Col>
+                ) : (
+                  ""
+                )}
+                <Col md={colWidth.createdAt}>{article.createdAt}</Col>
               </Row>
             </ListGroup.Item>
           ))

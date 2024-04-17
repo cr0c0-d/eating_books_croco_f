@@ -93,13 +93,19 @@ function MemberArticles() {
           </Row>
           <br />
           <h4>공개 글 목록</h4>
-          <ArticleList articleList={memberInfo.publicArticleList} />
+          <ArticleList
+            articleList={memberInfo.publicArticleList}
+            hideColumn={["writerNickname"]}
+          />
           <br />
 
           {memberInfo.privateArticleList ? (
             <div>
               <h4>비공개 글 목록</h4>
-              <ArticleList articleList={memberInfo.privateArticleList} />
+              <ArticleList
+                articleList={memberInfo.privateArticleList}
+                hideColumn={["writerNickname"]}
+              />
             </div>
           ) : (
             ""

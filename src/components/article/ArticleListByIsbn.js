@@ -41,12 +41,17 @@ function ArticleListByIsbn() {
     }
   };
   useEffect(() => {
-    const { book } = location.state;
-    if (book === undefined) {
+    if (location.state != null) {
+      const { book } = location.state;
+      if (book === undefined) {
+        const isbn = window.location.pathname.replace("/articles/book/", "");
+        getBook(isbn);
+      } else {
+        setBook(book);
+      }
+    } else {
       const isbn = window.location.pathname.replace("/articles/book/", "");
       getBook(isbn);
-    } else {
-      setBook(book);
     }
   }, []);
   useEffect(() => {
@@ -66,7 +71,11 @@ function ArticleListByIsbn() {
       {book ? <BookDetail book={book} /> : ""}
       <br />
       <h4 className="mt-4 mb-4">이 책의 글</h4>
-      {articleList ? <ArticleList articleList={articleList} /> : ""}
+      {articleList ? (
+        <ArticleList articleList={articleList} hideColumn={["bookTitle"]} />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
