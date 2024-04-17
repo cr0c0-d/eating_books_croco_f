@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import axios from "axios";
 import AuthAPI from "../../AuthAPI";
@@ -125,19 +126,26 @@ function Article() {
         <div>
           <h1 className="mt-4 mb-4">{article.title}</h1>
           <Row>
-            <h5>
-              <Image
-                src={article.writerImg}
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />{" "}
-              <a href={`/articles/member/${article.writerId}`}>
+            <span
+              style={{ cursor: "pointer", color: "blue" }}
+              onClick={() => history(`/articles/member/${article.writerId}`)}
+            >
+              <h5>
+                <Image
+                  src={article.writerImg}
+                  roundedCircle
+                  style={{ width: "30px", height: "30px" }}
+                />{" "}
                 {article.writerNickname}
-              </a>{" "}
-              {article.createdAt}{" "}
+              </h5>
+            </span>
+            <h6>
+              {article.createdAt}
               {article.editableYn ? (
-                <div>
+                <span>
+                  {" "}
                   <Button
+                    size="sm"
                     onClick={() => {
                       history("/writeArticle", {
                         state: {
@@ -150,6 +158,7 @@ function Article() {
                     수정
                   </Button>{" "}
                   <Button
+                    size="sm"
                     onClick={() => {
                       if (window.confirm("삭제하시겠습니까?")) {
                         deleteArticle();
@@ -160,11 +169,11 @@ function Article() {
                   >
                     삭제
                   </Button>
-                </div>
+                </span>
               ) : (
                 ""
               )}
-            </h5>
+            </h6>
           </Row>
 
           <br />

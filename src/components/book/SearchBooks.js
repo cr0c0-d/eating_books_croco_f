@@ -15,6 +15,7 @@ import Paging from "./Paging";
 
 import AladinApiSearchBooksAPI from "../../api/Aladin/AladinApiSearchBooksAPI";
 import BestBooks from "./BestBooks";
+import { ModalBody } from "react-bootstrap";
 
 function SearchBooks() {
   /**
@@ -27,7 +28,7 @@ function SearchBooks() {
   /**
    * 로딩 spinner
    */
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [showAlert, setShowAlert] = useState(false);
   const alertTarget = useRef(null);
@@ -62,6 +63,7 @@ function SearchBooks() {
       setShowAlert(true);
     } else {
       chIdx(1);
+      aladinSearchBooks();
     }
   };
 
@@ -70,11 +72,14 @@ function SearchBooks() {
     setLoading(true);
   };
 
-  useEffect(() => {
-    if (loading && keyword !== undefined && queryType !== undefined) {
-      aladinSearchBooks();
-    }
-  }, [index, loading]);
+  // useEffect(() => {
+  //   if (loading && keyword !== undefined && queryType !== undefined) {
+  //     console.log("loading : " + loading);
+  //     console.log("keyword : " + loading);
+  //     console.log("queryType : " + loading);
+  //     aladinSearchBooks();
+  //   }
+  // }, [index, loading]);
 
   return (
     <div>
@@ -127,12 +132,29 @@ function SearchBooks() {
       </Container>
       <hr />
       {loading ? (
-        <Modal>
-          <Spinner animation="border" role="status">
+        <div
+          id="modalbackground"
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1050,
+          }}
+        >
+          <Spinner animation="border" role="status" variant="success">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-        </Modal>
-      ) : books.length != 0 ? (
+        </div>
+      ) : (
+        ""
+      )}
+      {books.length != 0 ? (
         <div>
           <BookList books={books} />
           <hr />
@@ -145,7 +167,7 @@ function SearchBooks() {
         </div>
       ) : (
         <div>
-          <BestBooks />
+          <BestBooks setLoadDone={() => setLoading(false)} />
         </div>
       )}
     </div>

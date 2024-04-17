@@ -3,13 +3,14 @@ import BestBooksInBeforeArticles from "./BestBooksInAfterArticles";
 import BestBooksInAfterArticles from "./BestBooksInBeforeArticles";
 import BestSeller from "./BestSeller";
 
-function BestBooks() {
+function BestBooks({ setLoadDone }) {
   const [load1, setLoad1] = useState(false);
   const [load2, setLoad2] = useState(false);
   const [load3, setLoad3] = useState(false);
 
   useEffect(() => {
     setLoad1(true);
+    console.log(load1);
   }, []);
 
   return (
@@ -18,7 +19,7 @@ function BestBooks() {
       <hr />
       {load2 ? <BestBooksInAfterArticles loaded={setLoad3} /> : ""}
       <hr />
-      {load3 ? <BestSeller /> : ""}
+      {load3 ? <BestSeller loaded={setLoadDone} /> : ""}
     </div>
   );
 }
