@@ -20,10 +20,17 @@ function NewArticleTemplates({ templates }) {
 
   // 사용자 입력을 상태에 반영하는 함수
   const handleInputChange = (num, value) => {
-    setResponses({
-      ...responses,
-      [num]: value,
-    });
+    if (value.length === 0) {
+      setResponses({
+        ...responses,
+        [num]: undefined,
+      });
+    } else {
+      setResponses({
+        ...responses,
+        [num]: value,
+      });
+    }
   };
   useEffect(() => {
     if (articleMode === "template") {
