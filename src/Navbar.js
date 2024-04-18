@@ -33,19 +33,23 @@ function Navbar_c() {
   return (
     <Navbar bg="light" data-bs-theme="light">
       <Container>
-        <Navbar.Brand href="/">책먹는 악어</Navbar.Brand>
+        <Navbar.Brand onClick={() => history("/")}>책먹는 악어</Navbar.Brand>
         <Navbar.Collapse>
           <Nav className="me-auto">
-            <Nav.Link href="/search">책 검색</Nav.Link>
-            <Nav.Link href="/articles">글 목록</Nav.Link>
+            <Nav.Link onClick={() => history("/search")}>책 검색</Nav.Link>
+            <Nav.Link onClick={() => history("/articles")}>글 목록</Nav.Link>
           </Nav>
           <Nav>
             {userInfo.nickname ? (
               <NavDropdown title={userInfo.nickname}>
-                <NavDropdown.Item href={`/articles/member/${userInfo.id}`}>
+                <NavDropdown.Item
+                  onClick={() => history(`/articles/member/${userInfo.id}`)}
+                >
                   마이페이지
                 </NavDropdown.Item>
-                <NavDropdown.Item href={`/members/${userInfo.id}`}>
+                <NavDropdown.Item
+                  onClick={() => history(`/members/${userInfo.id}`)}
+                >
                   정보 수정
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

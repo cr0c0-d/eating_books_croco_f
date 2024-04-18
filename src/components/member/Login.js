@@ -194,12 +194,16 @@ function Login() {
           </div>
           <br />
           <div>
-            <Button href="/signup">회원가입</Button>
+            <Button onClick={() => history("/signup")}>회원가입</Button>
           </div>
           <br />
           <div>
             <Button
-              href={`${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`}
+              onClick={() =>
+                history(
+                  `${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`
+                )
+              }
             >
               <Image
                 src={googleLoginImg}
