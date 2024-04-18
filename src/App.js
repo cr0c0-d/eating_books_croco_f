@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import SearchBooks from "./components/book/SearchBooks";
 import SignUpForm from "./components/member/SignUpForm";
 import Login from "./components/member/Login";
@@ -9,12 +13,14 @@ import Member from "./components/member/Member";
 import LastArticleList from "./components/article/LastArticleList";
 import ArticleListByIsbn from "./components/article/ArticleListByIsbn";
 import MemberArticles from "./components/member/MemberArticles";
+import Main from "./components/Main";
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Layout />,
       children: [
+        { path: "/", element: <Main /> },
         { path: "/search", element: <SearchBooks /> },
         { path: "/signup", element: <SignUpForm /> },
         { path: "/login", element: <Login /> },
@@ -27,7 +33,12 @@ function App() {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <div>
+      <RouterProvider router={router} />{" "}
+      <BrowserRouter basename="https://cr0c0-d.github.io/eating_books_croco_f/" />
+    </div>
+  );
 }
 
 export default App;

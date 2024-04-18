@@ -4,7 +4,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+import { Image } from "react-bootstrap";
 import { useUser } from "./UserContext";
+
+import googleLoginImg from "../../img/googleLogin.png";
 
 import axios from "axios";
 import AuthAPI from "../../AuthAPI";
@@ -189,13 +192,19 @@ function Login() {
               </Button>
             </Form>
           </div>
+          <br />
           <div>
             <Button href="/signup">회원가입</Button>
           </div>
+          <br />
           <div>
             <Button
               href={`${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`}
             >
+              <Image
+                src={googleLoginImg}
+                style={{ width: "20px", height: "20px" }}
+              />
               구글 로그인
             </Button>
           </div>
