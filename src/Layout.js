@@ -5,13 +5,11 @@ import { UserProvider } from "./components/member/UserContext";
 function Layout() {
   return (
     <>
-      <UserProvider>
-        <Navbar />
-        <Container>
-          <Outlet />
-          <br />
-        </Container>
-      </UserProvider>
+      <Navbar />
+      <Container>
+        <Outlet />
+        <br />
+      </Container>
     </>
   );
 }

@@ -10,7 +10,7 @@ import Alert from "react-bootstrap/Alert";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
-import AuthAPI from "../../AuthAPI";
+import { useAuthAPI } from "../../AuthAPI";
 import BookDetailModal from "../book/BookDetailModal";
 import UpdateArticleTemplates from "./UpdateArticleTemplates";
 import UpdateArticleEditor from "./UpdateArticleEditor";
@@ -24,6 +24,7 @@ function UpdateArticle() {
   const [publicYn, setPublicYn] = useState(true);
   const [title, setTitle] = useState("");
   const { userInfo, setUserInfo, logoutAPI } = useUser();
+  const AuthAPI = useAuthAPI();
 
   const [show, setShow] = useState(false);
   const {

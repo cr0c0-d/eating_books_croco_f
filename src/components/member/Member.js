@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthAPI from "../../AuthAPI";
+import { useAuthAPI } from "../../AuthAPI";
 
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -16,6 +16,7 @@ function Member() {
   const [profileImg, setProfileImg] = useState("");
   const [editNickname, setEditNickname] = useState(false);
   const { userInfo, setUserInfo, logoutAPI } = useUser();
+  const AuthAPI = useAuthAPI();
 
   const history = useNavigate();
   const findMember = () => {
@@ -75,10 +76,7 @@ function Member() {
       data: memberInfo,
       success: (response) => {
         if (Number(userInfo.id) === Number(memberInfo.id)) {
-          //setUserInfo({ ...userInfo, nickname: memberInfo.nickname });
-          const userdata = JSON.parse(localStorage.getItem("userdata"));
-          userdata.nickname = memberInfo.nickname;
-          localStorage.setItem("userdata", JSON.stringify(userdata));
+          setUserInfo({ ...userInfo, nickname: memberInfo.nickname });
         }
         window.location.reload();
       },

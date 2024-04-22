@@ -10,13 +10,14 @@ import { useUser } from "./UserContext";
 import googleLoginImg from "../../img/googleLogin.png";
 
 import axios from "axios";
-import AuthAPI from "../../AuthAPI";
+import { useAuthAPI } from "../../AuthAPI";
 
 function Login() {
   const history = useNavigate();
   const location = useLocation();
-  const { userInfo, setUserInfo } = useUser();
+  const { userInfo, setUserInfo, logoutAPI } = useUser();
   const [loginStatus, setLoginStatus] = useState(true);
+  const AuthAPI = useAuthAPI();
 
   // 로그인 성공시
   const loginSuccess = (res) => {
@@ -123,17 +124,11 @@ function Login() {
       }
     });
     if (response !== undefined && response.status === 200) {
-      const userdata = {
-        accessToken: response.data.accessToken,
-        nickname: response.data.nickname,
-        id: response.data.id,
-        role: response.data.role,
-      };
-      localStorage.setItem("userdata", JSON.stringify(userdata));
       setUserInfo({
         nickname: response.data.nickname,
         id: response.data.id,
         role: response.data.role,
+        accessToken: response.data.accessToken,
       });
 
       afterLoginRedirect();

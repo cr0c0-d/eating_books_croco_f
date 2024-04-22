@@ -7,18 +7,19 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import axios from "axios";
-import AuthAPI from "../../AuthAPI";
 import { useUser } from "../member/UserContext";
 import BookCard from "../book/BookCard";
 import BookDetail from "../book/BookDetail";
 import { Image } from "react-bootstrap";
+import { useAuthAPI } from "../../AuthAPI";
 
 function Article() {
   const history = useNavigate();
   const location = useLocation();
   const [article, setArticle] = useState(null);
   const [book, setBook] = useState(null);
-  const { userInfo } = useUser();
+  const { userInfo, setUserInfo, logoutAPI } = useUser();
+  const AuthAPI = useAuthAPI();
 
   // 글 정보 가져오기
   const getArticle = async () => {

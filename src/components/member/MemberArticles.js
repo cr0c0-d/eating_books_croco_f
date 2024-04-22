@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthAPI from "../../AuthAPI";
+import { useAuthAPI } from "../../AuthAPI";
 
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -14,7 +14,8 @@ import ArticleList from "../article/ArticleList";
 
 function MemberArticles() {
   const [memberInfo, setMemberInfo] = useState(null);
-  const { userInfo, setUserInfo } = useUser();
+  const { userInfo, setUserInfo, logoutAPI } = useUser();
+  const AuthAPI = useAuthAPI();
 
   const history = useNavigate();
   const getMemberArticles = async () => {

@@ -16,6 +16,7 @@ import LastArticleList from "./components/article/LastArticleList";
 import ArticleListByIsbn from "./components/article/ArticleListByIsbn";
 import MemberArticles from "./components/member/MemberArticles";
 import Main from "./components/Main";
+import { UserProvider } from "./components/member/UserContext";
 function App() {
   // const router = createBrowserRouter([
   //   {
@@ -40,27 +41,32 @@ function App() {
   // );
 
   return (
-    <BrowserRouter
-    //basename={`${process.env.PUBLIC_URL}/`}
-    >
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route exact path="/" element={<Main />} />
-          <Route path="/search" element={<SearchBooks />} />
-          <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/writeArticle" element={<WriteArticle />} />
-          <Route path="/articles" element={<LastArticleList />} />
-          <Route path="/articles/:articleId" element={<Article />} />
-          <Route path="/members/:memberId" element={<Member />} />
-          <Route path="/articles/book/:isbn" element={<ArticleListByIsbn />} />
-          <Route
-            path="/articles/member/:memberId"
-            element={<MemberArticles />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter
+      //basename={`${process.env.PUBLIC_URL}/`}
+      >
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route exact path="/" element={<Main />} />
+            <Route path="/search" element={<SearchBooks />} />
+            <Route path="/signup" element={<SignUpForm />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/writeArticle" element={<WriteArticle />} />
+            <Route path="/articles" element={<LastArticleList />} />
+            <Route path="/articles/:articleId" element={<Article />} />
+            <Route path="/members/:memberId" element={<Member />} />
+            <Route
+              path="/articles/book/:isbn"
+              element={<ArticleListByIsbn />}
+            />
+            <Route
+              path="/articles/member/:memberId"
+              element={<MemberArticles />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
