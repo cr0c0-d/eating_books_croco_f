@@ -56,7 +56,9 @@ function Login() {
   };
 
   useEffect(() => {
-    chkLoginStatus();
+    if (!userInfo.accessToken) {
+      chkLoginStatus();
+    }
   }, []);
 
   const [formData, setFormData] = useState({
@@ -194,11 +196,7 @@ function Login() {
           <br />
           <div>
             <Button
-              onClick={() =>
-                history(
-                  `${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`
-                )
-              }
+              href={`${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`}
             >
               <Image
                 src={googleLoginImg}
