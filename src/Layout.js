@@ -1,15 +1,22 @@
 import Navbar from "./Navbar";
 import Container from "react-bootstrap/Container";
 import { Outlet } from "react-router-dom";
-import { UserProvider } from "./components/member/UserContext";
+import { useUser } from "./components/member/UserContext";
 function Layout() {
+  const { settingDone } = useUser();
   return (
     <>
-      <Navbar />
-      <Container>
-        <Outlet />
-        <br />
-      </Container>
+      {settingDone ? (
+        <div>
+          <Navbar />
+          <Container>
+            <Outlet />
+            <br />
+          </Container>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }

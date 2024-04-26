@@ -8,6 +8,7 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [accessToken, setAccessToken] = useState("");
+  const [settingDone, setSettingDone] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -47,6 +48,7 @@ export const UserProvider = ({ children }) => {
       newUserInfo.role = userdata.role;
       newUserInfo.accessToken = token;
       setUserInfo(newUserInfo);
+      setSettingDone(true);
     }
   };
 
@@ -105,7 +107,9 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ userInfo, setUserInfo, logoutAPI }}>
+    <UserContext.Provider
+      value={{ userInfo, setUserInfo, logoutAPI, settingDone }}
+    >
       {children}
     </UserContext.Provider>
   );
