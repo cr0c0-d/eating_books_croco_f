@@ -119,7 +119,7 @@ function Login() {
       },
       withCredentials: true,
     }).catch((error) => {
-      if (error.code === "ERR_BAD_REQUEST") {
+      if (error && error.code === "ERR_BAD_REQUEST") {
         setErrors({
           loginFail: "아이디 혹은 비밀번호를 확인해주세요. ",
         });

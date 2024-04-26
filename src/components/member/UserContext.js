@@ -65,7 +65,7 @@ export const UserProvider = ({ children }) => {
       data: null,
       withCredentials: true,
     }).catch((error) => {
-      if (error.response.status === 500) {
+      if (error && error.response.status === 500) {
         // 리프레쉬 토큰 없거나 잘못됨
       }
     });

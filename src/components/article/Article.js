@@ -27,7 +27,7 @@ function Article() {
       url: `${process.env.REACT_APP_API_ROOT}/api${window.location.pathname}`,
       method: "GET",
     }).catch((error) => {
-      if (error.response.status === 400) {
+      if (error && error.response.status === 400) {
         alert("존재하지 않는 글입니다.");
         history(-1);
       } else if (error.response.status === 403) {

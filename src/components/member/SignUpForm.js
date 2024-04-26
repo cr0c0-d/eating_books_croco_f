@@ -73,7 +73,7 @@ function SignUpForm() {
       }),
     }).catch((error) => {
       // 중복된 이메일
-      if (error.code === "ERR_BAD_REQUEST") {
+      if (error && error.code === "ERR_BAD_REQUEST") {
         setErrors({
           email: "사용중인 이메일입니다. 다른 이메일을 사용해주세요.",
         });

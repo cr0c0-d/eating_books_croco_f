@@ -19,7 +19,7 @@ export const useAuthAPI = () => {
       data: data,
     }).catch(async (error) => {
       if (error.response.status === 401) {
-        const result = getNewAccessToken();
+        const result = await getNewAccessToken();
         if (result) {
           AuthAPI({
             url: url,
@@ -59,7 +59,7 @@ export const useAuthAPI = () => {
       data: null,
       withCredentials: true,
     }).catch((error) => {
-      if (error.response.status === 500) {
+      if (error && error.response.status === 500) {
         // 리프레쉬 토큰도 잘못됨
         return false;
       }
