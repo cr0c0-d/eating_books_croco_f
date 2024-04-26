@@ -26,6 +26,8 @@ export const UserProvider = ({ children }) => {
     // 액세스토큰이 있으면 사용자 정보 조회
     if (accessToken !== undefined && accessToken.length > 0) {
       findMemberByAccessToken(accessToken);
+    } else {
+      setSettingDone(true);
     }
   }, [accessToken]);
 
