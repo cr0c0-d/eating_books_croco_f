@@ -55,15 +55,9 @@ export const UserProvider = ({ children }) => {
   };
 
   async function getNewAccessToken() {
-    const authorization = "Bearer " + userInfo.accessToken;
-
     const res = await axios({
       url: `${process.env.REACT_APP_API_ROOT}/api/token`,
       method: "POST",
-      headers: {
-        Authorization: authorization,
-        "Content-Type": "application/json",
-      },
       data: null,
       withCredentials: true,
     }).catch((error) => {
