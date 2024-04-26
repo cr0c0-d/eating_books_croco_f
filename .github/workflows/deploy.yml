@@ -5,14 +5,41 @@ on:
     branches:
       - main
 
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: akhileshns/heroku-deploy@v3.13.15
+#         with:
+#           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+#           heroku_app_name: eatingbookscroco
+#           heroku_email: ${{ secrets.HEROKU_EMAIL }}
+
 jobs:
-  build:
+  heroku-pull-request:
     runs-on: ubuntu-latest
+    env:
+      HEROKU_APP_NAME: eatingbookscroco
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.13.15
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: eatingbookscroco
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Login to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ env.HEROKU_APP_NAME }}
+          justlogin: true
+
+      - name: Add Heroku remote
+        run: heroku git:remote --app=${{ env.HEROKU_APP_NAME }}
+
+      - name: Push to master branch app on Heroku
+        run: git push heroku ${{ github.ref_name }}:main --force
