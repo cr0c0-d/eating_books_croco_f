@@ -16,7 +16,7 @@ function Login() {
   const history = useNavigate();
   const location = useLocation();
   const { userInfo, setUserInfo, logoutAPI } = useUser();
-  const [loginStatus, setLoginStatus] = useState(true);
+  const [loginStatus, setLoginStatus] = useState(false);
   const AuthAPI = useAuthAPI();
 
   // 로그인 성공시
@@ -42,24 +42,24 @@ function Login() {
     }
   };
 
-  // 로그인 전 토큰 확인
-  const chkLoginStatus = () => {
-    AuthAPI({
-      url: "/api/token",
-      method: "POST",
-      data: null,
-      success: loginSuccess,
-      fail: () => {
-        setLoginStatus(false);
-      },
-    });
-  };
+  // // 로그인 전 토큰 확인
+  // const chkLoginStatus = () => {
+  //   AuthAPI({
+  //     url: "/api/token",
+  //     method: "POST",
+  //     data: null,
+  //     success: loginSuccess,
+  //     fail: () => {
+  //       setLoginStatus(false);
+  //     },
+  //   });
+  // };
 
-  useEffect(() => {
-    if (!userInfo.accessToken) {
-      chkLoginStatus();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!userInfo.accessToken) {
+  //     chkLoginStatus();
+  //   }
+  // }, []);
 
   const [formData, setFormData] = useState({
     email: "",

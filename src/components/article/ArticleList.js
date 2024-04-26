@@ -27,8 +27,6 @@ function ArticleList({ articleList, hideColumn }) {
       showColumn[col] = false;
       colWidth.articleTitle += colWidth[col];
     });
-    console.log(hideColumn);
-    console.log(showColumn);
   }
 
   return (

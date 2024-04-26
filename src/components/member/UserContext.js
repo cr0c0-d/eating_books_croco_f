@@ -1,7 +1,5 @@
 import axios from "axios";
 import { createContext, useState, useContext, useEffect } from "react";
-import { useAuthAPI } from "../../AuthAPI";
-import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
@@ -9,22 +7,36 @@ export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
+  const [accessToken, setAccessToken] = useState("");
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-    if (token) {
+    let token = params.get("token");
+    if (token && token !== undefined) {
       // 파라미터로 토큰이 있음 => oAuth2로 로그인한 것
-      setUserInfo({ accessToken: token });
-      findMemberByAccessToken(token);
+      setAccessToken(token);
+    } else {
+      // 새 액세스토큰 발급 시도 (쿠키에 리프레시 토큰이 있을지도)
+      getNewAccessToken();
     }
   }, []);
 
+  useEffect(() => {
+    // 액세스토큰이 있으면 사용자 정보 조회
+    if (accessToken !== undefined && accessToken.length > 0) {
+      findMemberByAccessToken(accessToken);
+    }
+  }, [accessToken]);
+
   const findMemberByAccessToken = async (token) => {
+    if (token === undefined) {
+      return;
+    }
     const response = await axios({
       url: `${process.env.REACT_APP_API_ROOT}/api/token/${token}`,
       method: "GET",
     }).catch((error) => {
-      console.log(error);
+      console.log(error.status);
     });
     if (response && response.status === 200) {
       const userdata = response.data;
@@ -37,6 +49,32 @@ export const UserProvider = ({ children }) => {
       setUserInfo(newUserInfo);
     }
   };
+
+  async function getNewAccessToken() {
+    const authorization = "Bearer " + userInfo.accessToken;
+
+    const res = await axios({
+      url: `${process.env.REACT_APP_API_ROOT}/api/token`,
+      method: "POST",
+      headers: {
+        Authorization: authorization,
+        "Content-Type": "application/json",
+      },
+      data: null,
+      withCredentials: true,
+    }).catch((error) => {
+      if (error.response.status === 500) {
+        // 리프레쉬 토큰 없거나 잘못됨
+      }
+    });
+
+    if (res && (res.status === 201 || res.status === 200)) {
+      // 액세스 토큰 재발급이 성공하면 userInfo에 새로운 액세스 토큰 저장
+      setAccessToken(res.data.accessToken);
+    } else {
+    }
+  }
+
   // 로컬 스토리지에서 사용자 정보를 읽어와 초기 닉네임 상태 설정
   // useEffect(() => {
   //   const userdata = JSON.parse(localStorage.getItem("userdata"));
