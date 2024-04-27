@@ -7,7 +7,7 @@ export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
-  const [accessToken, setAccessToken] = useState("");
+  const [accessToken, setAccessToken] = useState(false);
   const [settingDone, setSettingDone] = useState(false);
 
   useEffect(() => {
@@ -24,9 +24,9 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     // 액세스토큰이 있으면 사용자 정보 조회
-    if (accessToken !== undefined && accessToken.length > 0) {
+    if (accessToken.length > 0) {
       findMemberByAccessToken(accessToken);
-    } else {
+    } else if (accessToken.length === 0) {
       setSettingDone(true);
     }
   }, [accessToken]);
@@ -39,7 +39,7 @@ export const UserProvider = ({ children }) => {
       url: `${process.env.REACT_APP_API_ROOT}/api/token/${token}`,
       method: "GET",
     }).catch((error) => {
-      console.log(error.status);
+      console.log(error);
     });
     if (response && response.status === 200) {
       const userdata = response.data;
@@ -50,9 +50,19 @@ export const UserProvider = ({ children }) => {
       newUserInfo.role = userdata.role;
       newUserInfo.accessToken = token;
       setUserInfo(newUserInfo);
-      setSettingDone(true);
+      //setSettingDone(true);
     }
   };
+
+  useEffect(() => {
+    if (
+      !settingDone &&
+      userInfo !== undefined &&
+      userInfo.nickname !== undefined
+    ) {
+      setSettingDone(true);
+    }
+  }, [userInfo]);
 
   async function getNewAccessToken() {
     const res = await axios({
@@ -64,6 +74,7 @@ export const UserProvider = ({ children }) => {
       // if (error && error.response.status === 500) {
       //   // 리프레쉬 토큰 없거나 잘못됨
       // }
+      setAccessToken("");
     });
 
     if (res && (res.status === 201 || res.status === 200)) {
