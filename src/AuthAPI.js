@@ -3,11 +3,12 @@ import { useUser } from "./components/member/UserContext";
 
 export const useAuthAPI = () => {
   const { userInfo, setUserInfo, logoutAPI } = useUser();
+  let accessToken = userInfo.accessToken;
 
   const AuthAPI = async ({ url, method, data, success, fail }) => {
     //console.log("AuthAPI : " + url);
 
-    const authorization = "Bearer " + userInfo.accessToken;
+    const authorization = "Bearer " + accessToken;
 
     const axiosResponse = await axios({
       url: `${process.env.REACT_APP_API_ROOT}` + url,
@@ -76,6 +77,7 @@ export const useAuthAPI = () => {
     if (res.status === 201 || res.status === 200) {
       // 재발급이 성공하면 userInfo에 새로운 액세스 토큰 저장
       setUserInfo({ ...userInfo, accessToken: res.data.accessToken });
+      accessToken = res.data.accessToken;
 
       return true; // 요청을 다시 보냄
     }
