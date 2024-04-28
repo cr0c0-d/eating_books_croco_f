@@ -31,6 +31,7 @@ const NewArticleEditor = () => {
         );
         const editorState = EditorState.createWithContent(contentState);
         setEditorState(editorState);
+        setArticleContents("");
       }
     }
   }, []);

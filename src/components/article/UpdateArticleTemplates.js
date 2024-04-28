@@ -35,6 +35,7 @@ function NewArticleTemplates({ templates }) {
   useEffect(() => {
     if (articleMode === "template") {
       setResponses(articleContents);
+      setArticleContents("");
     }
   }, []);
 

@@ -75,19 +75,6 @@ function UpdateArticle() {
     });
   }, []);
 
-  // // isbn으로 책 가져오기
-  // useEffect(() => {
-  //   AuthAPI({
-  //     url: "/api/books/" + isbn,
-  //     method: "GET",
-  //     data: null,
-  //     success: (response) => {
-  //       setBook(response.data);
-  //     },
-  //     fail: fail,
-  //   });
-  // }, []);
-
   const submit = () => {
     if (title === undefined || title === "") {
       alert("제목을 입력하세요!");
@@ -168,7 +155,7 @@ function UpdateArticle() {
               type="text"
               placeholder="제목을 입력하세요."
               size="lg"
-              value={article.title}
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </Form.Group>
