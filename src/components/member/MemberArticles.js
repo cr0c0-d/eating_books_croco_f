@@ -11,16 +11,50 @@ import FileUpload from "../../FileUpload";
 import axios from "axios";
 import { useUser } from "./UserContext";
 import ArticleList from "../article/ArticleList";
+import MemberBooks from "./MemberBooks";
 
 function MemberArticles() {
   const [memberInfo, setMemberInfo] = useState(null);
+  const [memberBooks, setMemberBooks] = useState(null);
+  const [loadedBooks, setLoadedBooks] = useState(false);
   const { userInfo, setUserInfo, logoutAPI } = useUser();
   const AuthAPI = useAuthAPI();
 
   const history = useNavigate();
+
+  const memberId = window.location.pathname.replace("/articles/member/", "");
+
+  // 해당 사용자의 읽을 예정 책/다 읽은 책 조회
+  const getBooksByMember = async () => {
+    const response = await axios({
+      url: `${process.env.REACT_APP_API_ROOT}/api/books/member/${memberId}`,
+      method: "GET",
+    }).catch((error) => {
+      if (error) {
+        alert("책 목록 조회에 실패했습니다.");
+      }
+    });
+
+    if (response.status === 200) {
+      // 조회 성공
+      setMemberBooks(response.data);
+    }
+  };
+
+  useEffect(() => {
+    getBooksByMember();
+  }, []);
+
+  useEffect(() => {
+    if (memberBooks) {
+      setLoadedBooks(true);
+    }
+  }, [memberBooks]);
+
+  // 해당 사용자의 작성글 목록 조회
   const getMemberArticles = async () => {
     const response = await axios({
-      url: `${process.env.REACT_APP_API_ROOT}/api${window.location.pathname}`,
+      url: `${process.env.REACT_APP_API_ROOT}/api/articles/member/${memberId}`,
       method: "GET",
     }).catch((error) => {
       if (error) {
@@ -59,12 +93,14 @@ function MemberArticles() {
   };
 
   useEffect(() => {
-    if (userInfo) {
-      getMemberArticlesAuth();
-    } else {
-      getMemberArticles();
+    if (loadedBooks) {
+      if (userInfo) {
+        getMemberArticlesAuth();
+      } else {
+        getMemberArticles();
+      }
     }
-  }, []);
+  }, [loadedBooks]);
 
   return (
     <div>
@@ -80,6 +116,16 @@ function MemberArticles() {
               </Col>
             </Row>
           </Row>
+
+          <br />
+          {loadedBooks ? (
+            <MemberBooks
+              upcomingBooks={memberBooks.upcomingBooks}
+              doneBooks={memberBooks.doneBooks}
+            />
+          ) : (
+            ""
+          )}
 
           <br />
           <Row>
