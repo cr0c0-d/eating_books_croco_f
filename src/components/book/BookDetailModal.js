@@ -12,7 +12,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function BookDetailModal({ book, clickClose }) {
+function BookDetailModal({ book, clickClose, onlyInfo = true }) {
   const history = useNavigate();
   return (
     <div>
@@ -72,7 +72,7 @@ function BookDetailModal({ book, clickClose }) {
                   </div>
                 </Row>
 
-                {window.location.pathname === "/search" ? (
+                {!onlyInfo ? (
                   <div>
                     <br />
                     <br />

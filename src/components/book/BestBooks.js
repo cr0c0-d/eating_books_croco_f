@@ -10,7 +10,6 @@ function BestBooks({ setLoadDone }) {
 
   useEffect(() => {
     setLoad1(true);
-    console.log(load1);
   }, []);
 
   return (

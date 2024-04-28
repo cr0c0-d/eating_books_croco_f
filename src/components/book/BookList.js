@@ -18,7 +18,7 @@ function BookList({ books }) {
     ""
   ) : (
     <div>
-      <Row>
+      <Row xs="auto">
         {books.map((book) =>
           book.isbn ? (
             <BookCard key={book.isbn} book={book} clickCard={onClickCard} />
@@ -29,7 +29,11 @@ function BookList({ books }) {
       </Row>
 
       <Modal show={show} onHide={() => setShow(false)} centered size="xl">
-        <BookDetailModal book={bookDetail} clickClose={onClickCard} />
+        <BookDetailModal
+          book={bookDetail}
+          clickClose={onClickCard}
+          onlyInfo={false}
+        />
       </Modal>
     </div>
   );
