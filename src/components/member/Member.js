@@ -9,14 +9,12 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Modal from "react-bootstrap/Modal";
-import FileUpload from "../../FileUpload";
 import axios from "axios";
 import { useUser } from "./UserContext";
 
 function Member() {
   const [memberInfo, setMemberInfo] = useState(null);
   const [profileImg, setProfileImg] = useState("");
-  const [editNickname, setEditNickname] = useState(false);
   const [saved, setSaved] = useState(false);
   const [showModalDeleteMember, setShowModalDeleteMember] = useState(false);
   const [enableDeleteMember, setEnableDeleteMember] = useState(false);
@@ -36,7 +34,7 @@ function Member() {
         setProfileImg(response.data.profileImg);
       },
       fail: (err) => {
-        if (err && err.response.status == 403) {
+        if (err && err.response.status === 403) {
           alert("권한이 없습니다.");
           history(-1);
         } else if (!err || err.response.status === 500) {

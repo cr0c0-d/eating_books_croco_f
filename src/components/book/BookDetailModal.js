@@ -1,15 +1,11 @@
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import ListGroup from "react-bootstrap/ListGroup";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Badge from "react-bootstrap/Badge";
 import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 
-import axios from "axios";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function BookDetailModal({ book, clickClose, onlyInfo = true }) {

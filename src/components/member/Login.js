@@ -10,22 +10,20 @@ import { useUser } from "./UserContext";
 import googleLoginImg from "../../img/googleLogin.png";
 
 import axios from "axios";
-import { useAuthAPI } from "../../AuthAPI";
 
 function Login() {
   const history = useNavigate();
   const location = useLocation();
-  const { userInfo, setUserInfo, logoutAPI } = useUser();
+  const { userInfo, setUserInfo } = useUser();
   const [loginStatus, setLoginStatus] = useState(false);
-  const AuthAPI = useAuthAPI();
 
-  // 로그인 성공시
-  const loginSuccess = (res) => {
-    if (res !== undefined && (res.status === 201 || res.status === 200)) {
-      setUserInfo({ ...userInfo, accessToken: res.data.accessToken }); // userInfo 업데이트
-      afterLoginRedirect();
-    }
-  };
+  // // 로그인 성공시
+  // const loginSuccess = (res) => {
+  //   if (res !== undefined && (res.status === 201 || res.status === 200)) {
+  //     setUserInfo({ ...userInfo, accessToken: res.data.accessToken }); // userInfo 업데이트
+  //     afterLoginRedirect();
+  //   }
+  // };
 
   // 페이지 이동
   const afterLoginRedirect = () => {
@@ -42,24 +40,12 @@ function Login() {
     }
   };
 
-  // // 로그인 전 토큰 확인
-  // const chkLoginStatus = () => {
-  //   AuthAPI({
-  //     url: "/api/token",
-  //     method: "POST",
-  //     data: null,
-  //     success: loginSuccess,
-  //     fail: () => {
-  //       setLoginStatus(false);
-  //     },
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (!userInfo.accessToken) {
-  //     chkLoginStatus();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (userInfo.accessToken) {
+      setLoginStatus(true);
+      afterLoginRedirect();
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     email: "",

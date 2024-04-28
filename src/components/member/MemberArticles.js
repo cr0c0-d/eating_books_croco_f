@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthAPI } from "../../AuthAPI";
 
-import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
-import Button from "react-bootstrap/Button";
-import FileUpload from "../../FileUpload";
 import axios from "axios";
 import { useUser } from "./UserContext";
 import ArticleList from "../article/ArticleList";
@@ -17,7 +14,7 @@ function MemberArticles() {
   const [memberInfo, setMemberInfo] = useState(null);
   const [memberBooks, setMemberBooks] = useState(null);
   const [loadedBooks, setLoadedBooks] = useState(false);
-  const { userInfo, setUserInfo, logoutAPI } = useUser();
+  const { userInfo } = useUser();
   const AuthAPI = useAuthAPI();
 
   const history = useNavigate();

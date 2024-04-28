@@ -1,4 +1,3 @@
-import { useState } from "react";
 import BookListCarousel from "../book/BookListCarousel";
 import { Col, Row } from "react-bootstrap";
 

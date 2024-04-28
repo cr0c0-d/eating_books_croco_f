@@ -2,7 +2,6 @@ import Row from "react-bootstrap/Row";
 import BookCardSmall from "./BookCardSmall";
 import Modal from "react-bootstrap/Modal";
 import Carousel from "react-bootstrap/Carousel";
-import Card from "react-bootstrap/Card";
 import BookDetailModal from "./BookDetailModal";
 import { useState } from "react";
 import { Col } from "react-bootstrap";
