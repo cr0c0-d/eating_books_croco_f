@@ -27,7 +27,7 @@ function BookListCarousel({ books }) {
             .filter((book) => book.isbn) // 유효한 ISBN을 가진 책만 필터링
             .reduce((acc, book, index) => {
               // 최대 5개의 책을 포함하는 그룹으로 분할
-              const groupIndex = Math.floor(index / 5);
+              const groupIndex = Math.floor(index / 3);
               if (!acc[groupIndex]) {
                 acc[groupIndex] = []; // 새 그룹 생성
               }
