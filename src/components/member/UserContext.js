@@ -39,7 +39,10 @@ export const UserProvider = ({ children }) => {
       url: `${process.env.REACT_APP_API_ROOT}/api/token/${token}`,
       method: "GET",
     }).catch((error) => {
-      console.log(error);
+      if (error.code === "ERR_NETWORK") {
+        findMemberByAccessToken(token);
+        return;
+      }
     });
     if (response && response.status === 200) {
       const userdata = response.data;
@@ -71,6 +74,11 @@ export const UserProvider = ({ children }) => {
       data: null,
       withCredentials: true,
     }).catch((error) => {
+      console.log(error);
+      if (error.code === "ERR_NETWORK") {
+        getNewAccessToken();
+        return;
+      }
       // if (error && error.response.status === 500) {
       //   // 리프레쉬 토큰 없거나 잘못됨
       // }
