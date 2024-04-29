@@ -84,7 +84,7 @@ const NewArticleEditor = () => {
         // 에디터의 값이 변경될 때마다 onEditorStateChange 호출
         onEditorStateChange={onEditorStateChange}
         editorStyle={{
-          height: "700px",
+          height: "800px",
           width: "100%",
           border: "1px solid lightgray",
           padding: "20px",
