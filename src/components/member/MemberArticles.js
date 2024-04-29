@@ -125,18 +125,7 @@ function MemberArticles() {
           )}
 
           <br />
-          <Row>
-            <Col>
-              <Row>총 작성 글 수</Row>
-              <Row>{memberInfo.articlesAllCount}</Row>
-            </Col>
-            <Col>
-              <Row>공개 글 수</Row>
-              <Row>{memberInfo.publicArticleList.length}</Row>
-            </Col>
-          </Row>
-          <br />
-          <h4>공개 글 목록</h4>
+          <h4>공개 글 목록 : {memberInfo.publicArticleList.length}개</h4>
           <ArticleList
             articleList={memberInfo.publicArticleList}
             hideColumn={["writerNickname"]}
