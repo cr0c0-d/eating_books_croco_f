@@ -2,7 +2,7 @@
 
 <!--프로젝트 대문 이미지-->
 
-![Project Title](img/banner.jpg)
+![Project Title](/readme/img/banner.jpg)
 
 <!--프로젝트 버튼-->
 <!--백엔드 깃허브-->
@@ -140,7 +140,7 @@
 
 ## 도서 검색 및 정보 조회
 
-![img_search](img/search.gif)
+![img_search](/readme/img/search.gif)
 
 - 도서 판매 사이트 '알라딘'의 API를 활용, 도서 검색 및 상세 정보 조회 기능 구현
 
@@ -148,7 +148,7 @@
 
 ## 글 작성
 
-![img_write](img/write.gif)
+![img_write](/readme/img/write.gif)
 
 특정 도서에 대한 감상문 작성 기능 구현
 
@@ -159,11 +159,11 @@
 
 ### 도서별 글 목록 조회
 
-![img_bookArticles](img/bookArticles.png)
+![img_bookArticles](/readme/img/bookArticles.png)
 
 ### 사용자별 글 목록 조회
 
-![img_memberArticles](img/memberArticles.png)
+![img_memberArticles](/readme/img/memberArticles.png)
 
 전체, 도서별, 사용자별 글 목록 조회 기능 구현
 
