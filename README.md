@@ -27,7 +27,7 @@
 
 <!--데모 사이트 배지-->
 
-[![view-demo-eatingbookscroco]][demo-url-eatingbookscroco]
+<!-- [![view-demo-eatingbookscroco]][demo-url-eatingbookscroco] -->
 
 <!--목차-->
 
